@@ -9,7 +9,7 @@ regex
 python-csv
 google-play-scraper
 os-sys
-unicodedata2
+python-unicodedata
 warnings
 nltk
 requests
