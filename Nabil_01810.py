@@ -135,7 +135,7 @@ def sentimen(df):
   df['Final_Cek'] = df['Final_Cek'].str.replace('engtidak', 'tidak')
   df['Final_Cek'] = df['Final_Cek'].str.replace('aplikasix', 'aplikasi')
   df['Final_Cek'] = df['Final_Cek'].str.replace('ss', 'cuplikan')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'baru')
+  df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'update')
 
   df['Final_Cek'] = df['Final_Cek'].drop_duplicates().apply(split_word)
   df = df.dropna()
@@ -216,7 +216,15 @@ if (selected=='Analisis Sentimen by Lexicon'):
     alamat_ = st.text_input("Masukan Alamat Aplikasi","")
     proses_analisis = st.button('Proses Analisis')
 
-    if proses_analisis:
-        df = scrap(alamat=alamat_)
+    if proses_analisis:        df = scrap(alamat=alamat_)
         df_n = sentimen(df)
-        st.write('Sentimen Analisis Berhasil!',df_n)
+        st.write(f'Sentimen Analisis Berhasil!',df_n)
+        fig, ax = plt.subplots(figsize = (6, 6))
+        sizes = [count for count in df_n['polarity'].value_counts()]
+        labels = list(df_n['polarity'].value_counts().index)
+        explode = (0.1, 0)
+        colors = ['#66b3ff', '#ffcc99']
+        ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
+        ax.set_title('Sentiment Polarity Pada Data AKSEL', fontsize = 16, pad = 20)
+        st.write('='*88)
+        st.pyplot(fig)
