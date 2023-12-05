@@ -8,5 +8,3 @@ nlp-id
 regex
 python-csv
 google-play-scraper
-nltk==3.8.1
-setuptools<58.0
