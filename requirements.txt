@@ -8,3 +8,6 @@ nlp-id
 regex
 python-csv
 google-play-scraper
+nltk
+nltk.download('stopwords')
+nltk.download('words')
