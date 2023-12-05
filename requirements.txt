@@ -1,0 +1,16 @@
+streamlit
+streamlit-option-menu
+numpy
+pandas
+matplotlib
+seaborn
+nlp-id
+re
+csv
+google-play-scraper
+sys
+string
+unicodedata
+warnings
+nltk
+requests
