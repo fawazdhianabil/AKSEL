@@ -12,7 +12,7 @@ import re
 import matplotlib.pyplot as plt
 import csv
 import sys
-import string, unicodedata
+import unicodedata
 
 # warning
 if not sys.warnoptions:
