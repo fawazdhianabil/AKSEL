@@ -9,8 +9,8 @@ regex
 python-csv
 google-play-scraper
 os-sys
-string
-unicodedata
+strings
+unicodedata2
 warnings
 nltk
 requests
