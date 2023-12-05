@@ -5,8 +5,8 @@ pandas
 matplotlib
 seaborn
 nlp-id
-re
-csv
+regex
+python-csv
 google-play-scraper
 sys
 string
