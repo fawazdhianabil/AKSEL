@@ -8,7 +8,7 @@ import seaborn as sns
 from google_play_scraper import Sort, reviews_all
 from nlp_id.lemmatizer import Lemmatizer
 
-import re
+import regex as re
 import matplotlib.pyplot as plt
 import csv
 import sys
