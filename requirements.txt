@@ -8,4 +8,4 @@ nlp-id
 regex
 python-csv
 google-play-scraper
-nltk==3.6.2
+nltk==3.8.1
