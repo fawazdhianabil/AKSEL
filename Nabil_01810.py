@@ -216,7 +216,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
     alamat_ = st.text_input("Masukan Alamat Aplikasi","")
     proses_analisis = st.button('Proses Analisis')
 
-    if proses_analisis:        df = scrap(alamat=alamat_)
+    if proses_analisis:        
+        df = scrap(alamat=alamat_)
         df_n = sentimen(df)
         st.write(f'Sentimen Analisis Berhasil!',df_n)
         fig, ax = plt.subplots(figsize = (6, 6))
