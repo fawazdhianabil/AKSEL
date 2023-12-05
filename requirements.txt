@@ -9,4 +9,3 @@ regex
 python-csv
 google-play-scraper
 nltk
-requests
