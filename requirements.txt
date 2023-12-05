@@ -8,7 +8,7 @@ nlp-id
 regex
 python-csv
 google-play-scraper
-sys
+os-sys
 string
 unicodedata
 warnings
