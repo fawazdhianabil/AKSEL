@@ -8,6 +8,5 @@ nlp-id
 regex
 python-csv
 google-play-scraper
-warnings
 nltk
 requests
