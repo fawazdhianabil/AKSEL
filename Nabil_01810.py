@@ -315,7 +315,7 @@ if (selected=='Crawling Data Playstore'):
         result = reviews_all(alamat,
                              lang='id',
                              country='id',
-                             sort=Sort.nEST)
+                             sort=Sort.NEWEST)
         
         st.success('Crawling Data Berhasil!')
         st.write(pd.DataFrame(result))
