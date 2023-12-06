@@ -234,8 +234,8 @@ def wordcloud(df):
     for row_word in positive_words:
         for word in row_word:
             list_words_postive += ' '+(word)
-    wordcloud_positive = WordCloud(width = 800, height = 600, background_color = 'black', colormap = 'Greens'
-                               , min_font_size = 10).generate(list_words_postive)
+    wordcloud_positive = WordCloud(width = 1800, height = 1500, background_color = 'black', colormap = 'Greens'
+                               , min_font_size = 12).generate(list_words_postive)
     ax[0].set_title('Word Cloud dari Kata Positive AKSEL', fontsize = 14)
     ax[0].grid(False)
     ax[0].imshow((wordcloud_positive))
@@ -249,8 +249,8 @@ def wordcloud(df):
     for row_word in negative_words:
         for word in row_word:
             list_words_negative += ' '+(word)
-    wordcloud_negative = WordCloud(width = 800, height = 600, background_color = 'black', colormap = 'Reds'
-                               , min_font_size = 10).generate(list_words_negative)
+    wordcloud_negative = WordCloud(width = 1800, height = 1500, background_color = 'black', colormap = 'Reds'
+                               , min_font_size = 12).generate(list_words_negative)
     ax[1].set_title('Word Cloud dari Kata Negative AKSEL', fontsize = 14)
     ax[1].grid(False)
     ax[1].imshow((wordcloud_negative))
