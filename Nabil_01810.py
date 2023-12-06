@@ -89,6 +89,41 @@ def remove_stopwords2(teks):
     text = [word for word in teks if not word in unwanted_words]
     return text
 
+def jam(df):
+  df = df
+  df['at'] = pd.to_datetime(df['at'], errors='coerce')
+  jam1 = df['at'].dt.round('H')
+  jam1 = jam1.dt.strftime('%H:%M:%S')
+  df['jam'] = jam1
+  fig, ax = plt.subplots(figsize = (20, 6))
+  x_values = jam1.value_counts().sort_index().index
+  y_values = jam1.value_counts().sort_index()
+  sns.lineplot(ax = ax, x = x_values, y = y_values)
+  ax.set_title('Banyak Review \n (Berdasarkan Jam)', fontsize = 18)
+  ax.set_xlabel('Jam')
+  ax.set_xticks(x_values)
+  ax.set_xticklabels(x_values, rotation = 45)
+  ax.set_ylabel('Frekuensi')
+  plt.grid()
+  st.pyplot(fig)
+
+def bulan(df):
+  df = df
+  bulan1 = df['at'].dt.round('30D')
+  bulan1 = bulan1.dt.strftime('%Y-%m-%d')
+  df['bulan'] = bulan1
+  fig, ax = plt.subplots(figsize = (20, 6))
+  x_values = bulan1.value_counts().sort_index().index
+  y_values = bulan1.value_counts().sort_index()
+  sns.lineplot(ax = ax, x = x_values, y = y_values)
+  ax.set_title('Banyak Review \n (Berdasarkan Bulan)', fontsize = 18)
+  ax.set_xlabel('Bulan')
+  ax.set_xticks(x_values)
+  ax.set_xticklabels(x_values, rotation = 45)
+  ax.set_ylabel('Frekuensi')
+  plt.grid()
+  st.pyplot(fig)
+
 from nlp_id.lemmatizer import Lemmatizer
 lemmatizer = Lemmatizer()
 
@@ -282,7 +317,8 @@ if (selected=='Crawling Data Playstore'):
                              country='id',
                              sort=Sort.nEST)
         
-        st.write('Crawling Data Berhasil!',pd.DataFrame(result))
+        st.success('Crawling Data Berhasil!')
+        st.write(pd.DataFrame(result))
 
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
@@ -296,7 +332,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
         df_n = sentimen(df)
         sizes = [count for count in df_n['polarity'].value_counts()]
         labels = list(df_n['polarity'].value_counts().index)
-        st.write('Sentimen Analisis Berhasil!',df_n)
+        st.success('Sentimen Analisis Berhasil!')
+        st.write(df_n)
         st.write('='*88)
         st.write('Ringkasan Data :')
         st.write('Data Sebelum Text Preprocessing :',df.shape[0])
@@ -326,8 +363,14 @@ if (selected=='Statistic by Lexicon'):
         df_n = sentimen(df)
         kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
         kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
+        st.write('='*88)
         pos(kata_positif)
+        st.write('='*88)
         neg(kata_negatif)
+        st.write('='*88)
+        jam(df)
+        st.write('='*88)
+        bulan(df)
         
     
 
