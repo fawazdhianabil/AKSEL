@@ -9,3 +9,4 @@ regex
 google-play-scraper
 nltk
 requests
+wordcloud
