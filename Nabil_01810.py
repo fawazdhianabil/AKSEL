@@ -311,7 +311,7 @@ if (selected=='Crawling Data Playstore'):
     proses = st.button('Proses Crawling')
 
     if proses:
-        df = scrap(alamat=alamat_)
+        df = scrap(alamat=alamat)
         st.success(f'Crawling {df.shape[0]} Data Berhasil!')
         st.write(df)
 
