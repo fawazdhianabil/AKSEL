@@ -229,7 +229,7 @@ def wordcloud(df):
     positive_review = df[df['polarity'] == 'positive']
     positive_words = positive_review['Untokenizing'].apply(split_word)
     
-    fig, ax = plt.subplots(1,2, figsize = (15, 10))
+    fig, ax = plt.subplots(1,2, figsize = (20, 16))
     list_words_postive=''
     for row_word in positive_words:
         for word in row_word:
