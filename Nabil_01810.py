@@ -302,7 +302,7 @@ with st.sidebar :
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon',
-                            'Statistic by Lexicon'],
+                            'Statistic Raw Data'],
                             default_index=0)
 
 if (selected=='Crawling Data Playstore'):
@@ -352,11 +352,11 @@ if (selected=='Analisis Sentimen by Lexicon'):
         wordcloud(df_n)
 
 
-if (selected=='Statistic by Lexicon'):
-   st.title('Statistic by Lexicon')
+if (selected=='Statistic Raw Data'):
+   st.title('Statistic Raw Data')
 
    alamat_ = st.text_input("Masukan Alamat Aplikasi","")
-   proses_statistik = st.button('Cek Statistik')
+   proses_statistik = st.button('Cek Statistic')
 
    if proses_statistik:
         df = scrap(alamat=alamat_)
