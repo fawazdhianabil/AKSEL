@@ -294,7 +294,6 @@ def wordcloud(df):
     st.pyplot(fig)
 
 
-
 # code untuk streamlit
 st.title('Analisis Sentimen')
 
@@ -312,13 +311,9 @@ if (selected=='Crawling Data Playstore'):
     proses = st.button('Proses Crawling')
 
     if proses:
-        result = reviews_all(alamat,
-                             lang='id',
-                             country='id',
-                             sort=Sort.NEWEST)
-        
-        st.success('Crawling Data Berhasil!')
-        st.write(pd.DataFrame(result))
+        df = scrap(alamat=alamat_)
+        st.success(f'Crawling {df.shape[0]} Data Berhasil!')
+        st.write(df)
 
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
@@ -326,7 +321,6 @@ if (selected=='Analisis Sentimen by Lexicon'):
     alamat_ = st.text_input("Masukan Alamat Aplikasi","")
     proses_analisis = st.button('Proses Analisis')
     
-
     if proses_analisis:
         df = scrap(alamat=alamat_)
         df_n = sentimen(df)
