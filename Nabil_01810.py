@@ -370,7 +370,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
            st.write('='*88)
            st.pyplot(fig)
            st.write('='*88)
-           wordcloud(df_n)
+           wordcloud(df_n,jdl)
            st.write('='*88)
            kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
            kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
