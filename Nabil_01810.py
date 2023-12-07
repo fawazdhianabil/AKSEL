@@ -236,7 +236,7 @@ def pos(kata_positif,jdl):
     plt.bar(positif_x, positif_y)
     plt.xlabel("Kata", fontweight ='bold')
     plt.ylabel("Frekuensi", fontweight ='bold')
-    plt.title("Kata pada Sentimen Positive", fontweight ='bold', fontsize = 14)
+    plt.title(f"Kata pada Sentimen Positive {jdl}", fontweight ='bold', fontsize = 14)
 
     plt.xticks(positif_x, rotation = 30)
 
@@ -254,7 +254,7 @@ def neg(kata_negatif,jdl):
     plt.bar(negatif_x, negatif_y)
     plt.xlabel("Kata", fontweight ='bold')
     plt.ylabel("Frekuensi", fontweight ='bold')
-    plt.title("Kata pada Sentimen Negative", fontweight ='bold', fontsize = 14)
+    plt.title(f"Kata pada Sentimen Negative {jdl}", fontweight ='bold', fontsize = 14)
 
     plt.xticks(negatif_x, rotation = 30)
 
