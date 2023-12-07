@@ -260,7 +260,7 @@ def neg(kata_negatif):
 
     st.pyplot(fig)
 
-def wordcloud(df):
+def wordcloud(df,jdl):
     positive_review = df[df['polarity'] == 'positive']
     positive_words = positive_review['Untokenizing'].apply(split_word)
     
@@ -271,7 +271,7 @@ def wordcloud(df):
             list_words_postive += ' '+(word)
     wordcloud_positive = WordCloud(width = 1800, height = 1500, background_color = 'black', colormap = 'Greens'
                                , min_font_size = 12).generate(list_words_postive)
-    ax[0].set_title('Word Cloud dari Kata Positive AKSEL', fontsize = 14)
+    ax[0].set_title(f'Word Cloud dari Kata Positive {jdl}', fontsize = 14)
     ax[0].grid(False)
     ax[0].imshow((wordcloud_positive))
     fig.tight_layout(pad=0)
@@ -286,7 +286,7 @@ def wordcloud(df):
             list_words_negative += ' '+(word)
     wordcloud_negative = WordCloud(width = 1800, height = 1500, background_color = 'black', colormap = 'Reds'
                                , min_font_size = 12).generate(list_words_negative)
-    ax[1].set_title('Word Cloud dari Kata Negative AKSEL', fontsize = 14)
+    ax[1].set_title(f'Word Cloud dari Kata Negative {jdl}', fontsize = 14)
     ax[1].grid(False)
     ax[1].imshow((wordcloud_negative))
     fig.tight_layout(pad=0)
@@ -311,10 +311,13 @@ if (selected=='Crawling Data Playstore'):
     proses = st.button('Proses Crawling')
     if al == 'AKSEL':
         alamat = 'id.co.bankkalsel.mobile_banking'
+        jdl = 'AKSEL'
     elif al == 'Merchant Mobile (QRIS)':
         alamat = 'com.dwidasa.kalsel.mbqris.android'
+        jdl = 'Merchant Mobile (QRIS)'
     elif al == 'IBB Mobile':
         alamat = 'id.co.bankkalsel.mobileibb'
+        jdl = 'IBB Mobile'
 
     if proses:
         result = pd.DataFrame(reviews_all(alamat,
@@ -360,7 +363,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
            explode = (0.1, 0)
            colors = ['#66b3ff', '#ffcc99']
            ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
-           ax.set_title('Sentiment Polarity Pada Data AKSEL', fontsize = 16, pad = 20)
+           ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
            st.write('='*88)
            st.pyplot(fig)
            st.write('='*88)
@@ -368,9 +371,9 @@ if (selected=='Analisis Sentimen by Lexicon'):
            st.write('='*88)
            kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
            kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
-           pos(kata_positif)
+           pos(kata_positif,jdl)
            st.write('='*88)
-           neg(kata_negatif)
+           neg(kata_negatif,jdl)
            st.write('='*88)
            jam(df)
            st.write('='*88)
