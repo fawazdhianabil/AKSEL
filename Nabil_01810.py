@@ -300,71 +300,81 @@ st.title('Analisis Sentimen')
 with st.sidebar :
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
-                            'Analisis Sentimen by Lexicon',
-                            'Statistic Raw Data'],
+                            'Analisis Sentimen by Lexicon'],
                             default_index=0)
 
 if (selected=='Crawling Data Playstore'):
     st.title('Crawling Data Playstore')
 
-    alamat = st.text_input("Masukan Alamat Aplikasi","")
+    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL','Merchant Mobile (QRIS)','IBB Mobile'),
+                          index=None,placeholder='Pilih')
     proses = st.button('Proses Crawling')
+    if al == 'AKSEL':
+        alamat = 'id.co.bankkalsel.mobile_banking'
+    elif al == 'Merchant Mobile (QRIS)':
+        alamat = 'com.dwidasa.kalsel.mbqris.android'
+    elif al == 'IBB Mobile':
+        alamat = 'id.co.bankkalsel.mobileibb'
 
     if proses:
-        df = scrap(alamat=alamat)
-        st.success(f'Crawling {df.shape[0]} Data Berhasil!')
-        st.write(df)
-
+        result = pd.DataFrame(reviews_all(alamat,
+                             lang='id',
+                             country='id',
+                             sort=Sort.NEWEST))
+        if result.shape[0] > 0:
+            st.success(f'Crawling {result.shape[0]} Data Berhasil!')
+            st.write(pd.DataFrame(result))
+        else:
+            st.error('Data Ulasan Tidak Ada',icon='🚨')
+        
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
 
-    alamat_ = st.text_input("Masukan Alamat Aplikasi","")
+    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL','Merchant Mobile (QRIS)','IBB Mobile'),
+                          index=None,placeholder='Pilih')
+    
     proses_analisis = st.button('Proses Analisis')
+    if al == 'AKSEL':
+        alamat = 'id.co.bankkalsel.mobile_banking'
+    elif al == 'Merchant Mobile (QRIS)':
+        alamat = 'com.dwidasa.kalsel.mbqris.android'
+    elif al == 'IBB Mobile':
+        alamat = 'id.co.bankkalsel.mobileibb'
     
     if proses_analisis:
-        df = scrap(alamat=alamat_)
-        df_n = sentimen(df)
-        sizes = [count for count in df_n['polarity'].value_counts()]
-        labels = list(df_n['polarity'].value_counts().index)
-        st.success('Sentimen Analisis Berhasil!')
-        st.write(df_n)
-        st.write('='*88)
-        st.write('Ringkasan Data :')
-        st.write('Data Sebelum Text Preprocessing :',df.shape[0])
-        st.write('Data Sesudah Text Preprocessing :',df_n.shape[0])
-        st.write('Jumlah Sentiment Negative :',sizes[0])
-        st.write('Jumlah Sentiment Positive :',sizes[1])
+        try:
+           df = scrap(alamat=alamat)
+           df_n = sentimen(df)
+           sizes = [count for count in df_n['polarity'].value_counts()]
+           labels = list(df_n['polarity'].value_counts().index)
+           st.success('Sentimen Analisis Berhasil!')
+           st.write(df_n)
+           st.write('='*88)
+           st.write('Ringkasan Data :')
+           st.write('Data Sebelum Text Preprocessing :',df.shape[0])
+           st.write('Data Sesudah Text Preprocessing :',df_n.shape[0])
+           st.write('Jumlah Sentiment Negative :',sizes[0])
+           st.write('Jumlah Sentiment Positive :',sizes[1])
 
-        fig, ax = plt.subplots(figsize = (6, 6))
-        explode = (0.1, 0)
-        colors = ['#66b3ff', '#ffcc99']
-        ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
-        ax.set_title('Sentiment Polarity Pada Data AKSEL', fontsize = 16, pad = 20)
-        st.write('='*88)
-        st.pyplot(fig)
-        st.write('='*88)
-        wordcloud(df_n)
-
-
-if (selected=='Statistic Raw Data'):
-   st.title('Statistic Raw Data')
-
-   alamat_ = st.text_input("Masukan Alamat Aplikasi","")
-   proses_statistik = st.button('Cek Statistic')
-
-   if proses_statistik:
-        df = scrap(alamat=alamat_)
-        df_n = sentimen(df)
-        kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
-        kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
-        st.write('='*88)
-        pos(kata_positif)
-        st.write('='*88)
-        neg(kata_negatif)
-        st.write('='*88)
-        jam(df)
-        st.write('='*88)
-        bulan(df)
-        
-    
-
+           fig, ax = plt.subplots(figsize = (6, 6))
+           explode = (0.1, 0)
+           colors = ['#66b3ff', '#ffcc99']
+           ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
+           ax.set_title('Sentiment Polarity Pada Data AKSEL', fontsize = 16, pad = 20)
+           st.write('='*88)
+           st.pyplot(fig)
+           st.write('='*88)
+           wordcloud(df_n)
+           st.write('='*88)
+           kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
+           kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
+           pos(kata_positif)
+           st.write('='*88)
+           neg(kata_negatif)
+           st.write('='*88)
+           jam(df)
+           st.write('='*88)
+           bulan(df)
+        except:
+           st.error('Data Tidak Ditemukan',icon='🚨)
+           st.write('Hal ini Disebabkan Belum Ada Ulasan')
