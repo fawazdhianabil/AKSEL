@@ -89,7 +89,7 @@ def remove_stopwords2(teks):
     text = [word for word in teks if not word in unwanted_words]
     return text
 
-def jam(df):
+def jam(df,jdl):
   df = df
   df['at'] = pd.to_datetime(df['at'], errors='coerce')
   jam1 = df['at'].dt.round('H')
@@ -99,7 +99,7 @@ def jam(df):
   x_values = jam1.value_counts().sort_index().index
   y_values = jam1.value_counts().sort_index()
   sns.lineplot(ax = ax, x = x_values, y = y_values)
-  ax.set_title('Banyak Review \n (Berdasarkan Jam)', fontsize = 18)
+  ax.set_title(f'Banyak Review {jdl} \n (Berdasarkan Jam)', fontsize = 18)
   ax.set_xlabel('Jam')
   ax.set_xticks(x_values)
   ax.set_xticklabels(x_values, rotation = 45)
@@ -107,7 +107,7 @@ def jam(df):
   plt.grid()
   st.pyplot(fig)
 
-def bulan(df):
+def bulan(df,jdl):
   df = df
   bulan1 = df['at'].dt.round('30D')
   bulan1 = bulan1.dt.strftime('%Y-%m-%d')
@@ -116,7 +116,7 @@ def bulan(df):
   x_values = bulan1.value_counts().sort_index().index
   y_values = bulan1.value_counts().sort_index()
   sns.lineplot(ax = ax, x = x_values, y = y_values)
-  ax.set_title('Banyak Review \n (Berdasarkan Bulan)', fontsize = 18)
+  ax.set_title(f'Banyak Review pada {jdl} \n (Berdasarkan Bulan)', fontsize = 18)
   ax.set_xlabel('Bulan')
   ax.set_xticks(x_values)
   ax.set_xticklabels(x_values, rotation = 45)
@@ -224,7 +224,7 @@ def sentimen(df):
 
   return df
 
-def pos(kata_positif):
+def pos(kata_positif,jdl):
     # SENTIMEN positif
     
     positif_kata = kata_positif.value_counts().nlargest(20)
@@ -242,7 +242,7 @@ def pos(kata_positif):
 
     st.pyplot(fig)
 
-def neg(kata_negatif):
+def neg(kata_negatif,jdl):
     # SENTIMEN negatif
     
     negatif_kata = kata_negatif.value_counts().nlargest(20)
@@ -378,9 +378,9 @@ if (selected=='Analisis Sentimen by Lexicon'):
            st.write('='*88)
            neg(kata_negatif,jdl)
            st.write('='*88)
-           jam(df)
+           jam(df,jdl)
            st.write('='*88)
-           bulan(df)
+           bulan(df,jdl)
         except:
            st.error('Data Tidak Ditemukan',icon='🚨')
            st.write('Hal ini Disebabkan Belum Ada Ulasan')
