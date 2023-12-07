@@ -376,5 +376,5 @@ if (selected=='Analisis Sentimen by Lexicon'):
            st.write('='*88)
            bulan(df)
         except:
-           st.error('Data Tidak Ditemukan',icon='🚨)
+           st.error('Data Tidak Ditemukan',icon='🚨')
            st.write('Hal ini Disebabkan Belum Ada Ulasan')
