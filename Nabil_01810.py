@@ -339,10 +339,13 @@ if (selected=='Analisis Sentimen by Lexicon'):
     proses_analisis = st.button('Proses Analisis')
     if al == 'AKSEL':
         alamat = 'id.co.bankkalsel.mobile_banking'
+        jdl = 'AKSEL'
     elif al == 'Merchant Mobile (QRIS)':
         alamat = 'com.dwidasa.kalsel.mbqris.android'
+        jdl = 'Merchant Mobile (QRIS)'
     elif al == 'IBB Mobile':
         alamat = 'id.co.bankkalsel.mobileibb'
+        jdl = 'IBB Mobile'
     
     if proses_analisis:
         try:
