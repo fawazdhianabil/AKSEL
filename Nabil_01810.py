@@ -339,7 +339,7 @@ def wc_positive(df,jdl):
     fig.savefig('wc_positive.jpg')
 
 def wc_negative(df,jdl):
-    negative_review = df_new[df_new['polarity'] == 'negative']
+    negative_review = df[df['polarity'] == 'negative']
     negative_words = negative_review['Untokenizing'].apply(split_word)
 
     fig, ax = plt.subplots(figsize = (15, 10))
