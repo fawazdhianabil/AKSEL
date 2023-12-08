@@ -239,7 +239,7 @@ def apk(df):
     versi_y = counts
 
     fig = plt.figure(figsize = (12, 10))
-    plt.bar(versi_x, versi_y)
+    plt.bar(versi_x, versi_y,color='lightblue')
     plt.xlabel("Versi", fontweight ='bold')
     plt.ylabel("Frekuensi", fontweight ='bold')
     plt.title("Versi Aplikasi yang Sering Menerima Review", fontweight ='bold', fontsize = 14)
@@ -257,7 +257,7 @@ def pos(kata_positif,jdl):
     positif_y = positif_kata.values
 
     fig = plt.figure(figsize = (12, 10))
-    plt.bar(positif_x, positif_y)
+    plt.bar(positif_x, positif_y,color='lightgreen')
     plt.xlabel("Kata", fontweight ='bold')
     plt.ylabel("Frekuensi", fontweight ='bold')
     plt.title(f"Kata pada Sentimen Positive {jdl}", fontweight ='bold', fontsize = 14)
@@ -276,7 +276,7 @@ def neg(kata_negatif,jdl):
     negatif_y = negatif_kata.values
 
     fig = plt.figure(figsize = (12, 10))
-    plt.bar(negatif_x, negatif_y)
+    plt.bar(negatif_x, negatif_y,color='lightcoral')
     plt.xlabel("Kata", fontweight ='bold')
     plt.ylabel("Frekuensi", fontweight ='bold')
     plt.title(f"Kata pada Sentimen Negative {jdl}", fontweight ='bold', fontsize = 14)
@@ -431,7 +431,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
 
                 fig, ax = plt.subplots(figsize = (6, 6))
                 explode = (0.1, 0)
-                colors = ['#66b3ff', '#ffcc99']
+                colors = ['lightcoral', 'lightgreen']
                 ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
                 ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
                 st.write('='*88)
@@ -540,7 +540,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
 
                 fig, ax = plt.subplots(figsize = (6, 6))
                 explode = (0.1, 0)
-                colors = ['#66b3ff', '#ffcc99']
+                colors = ['red', 'blue']
                 ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
                 ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
                 st.write('='*88)
