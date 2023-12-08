@@ -111,6 +111,7 @@ def jam(df,jdl):
   ax.set_ylabel('Frekuensi')
   plt.grid()
   st.pyplot(fig)
+  fig.savefig('Jam.jpg')
 
 def bulan(df,jdl):
   df = df
@@ -128,6 +129,7 @@ def bulan(df,jdl):
   ax.set_ylabel('Frekuensi')
   plt.grid()
   st.pyplot(fig)
+  fig.savefig('Bulan.jpg')
 
 from nlp_id.lemmatizer import Lemmatizer
 lemmatizer = Lemmatizer()
@@ -263,6 +265,7 @@ def pos(kata_positif,jdl):
     plt.xticks(positif_x, rotation = 30)
     fig.savefig('Positive.jpg')
     st.pyplot(fig)
+    fig.savefig('Positive.jpg')
 
 def neg(kata_negatif,jdl):
     # SENTIMEN negatif
@@ -281,6 +284,7 @@ def neg(kata_negatif,jdl):
     plt.xticks(negatif_x, rotation = 30)
     fig.savefig('negative.jpg')
     st.pyplot(fig)
+    fig.savefig('negative.jpg')
 
 def wordcloud(df,jdl):
     positive_review = df[df['polarity'] == 'positive']
@@ -315,6 +319,44 @@ def wordcloud(df,jdl):
     ax[1].axis('off')
     st.pyplot(fig)
 
+def wc_postive(df,jdl):
+    positive_review = df[df['polarity'] == 'positive']
+    positive_words = positive_review['Untokenizing'].apply(split_word)
+
+    fig, ax = plt.subplots(figsize = (15, 10))
+    list_words_postive=''
+    for row_word in positive_words:
+        for word in row_word:
+            list_words_postive += ' '+(word)
+    wordcloud_positive = WordCloud(width = 800, height = 600, background_color = 'black', colormap = 'Greens'
+                               , min_font_size = 10).generate(list_words_postive)
+    ax.set_title(f'Word Cloud dari Kata Positive {jdl}', fontsize = 14)
+    ax.grid(False)
+    ax.imshow((wordcloud_positive))
+    fig.tight_layout(pad=0)
+    wordcloud_positive.to_file('wc_positive.jpg')
+    ax.axis('off')
+    fig.savefig('wc_positive.jpg')
+
+def wc_negative(df,jdl):
+    negative_review = df_new[df_new['polarity'] == 'negative']
+    negative_words = negative_review['Untokenizing'].apply(split_word)
+
+    fig, ax = plt.subplots(figsize = (15, 10))
+    list_words_negative=''
+    for row_word in negative_words:
+        for word in row_word:
+            list_words_negative += ' '+(word)
+    wordcloud_negative = WordCloud(width = 800, height = 600, background_color = 'black', colormap = 'Reds'
+                               , min_font_size = 10).generate(list_words_negative)
+    ax.set_title(f'Word Cloud dari Kata Negative {jdl}', fontsize = 14)
+    ax.grid(False)
+    ax.imshow((wordcloud_negative))
+    fig.tight_layout(pad=0)
+    wordcloud_negative.to_file('wc_negative.jpg')
+    ax.axis('off')
+    fig.savefig('wc_negative.jpg')
+    
 
 # code untuk streamlit
 st.title('Analisis Sentimen')
@@ -393,6 +435,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
                 st.write('='*88)
                 st.pyplot(fig)
+                fig.savefig('Polarity.jpg')
                 st.write('='*88)
                 apk(df)
                 st.write('='*88)
@@ -415,6 +458,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 HEIGHT = 297
                 pdf = FPDF()
                 #hal pertama
+                wc_positive(df_n,jdl)
+                wc_negative(df_n,jdl)
                 pdf.add_page()
                 pdf.set_font('Arial','B',16)
                 pdf.ln(5)
