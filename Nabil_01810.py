@@ -393,6 +393,7 @@ if (selected=='Crawling Data Playstore'):
             st.write(pd.DataFrame(result))
         else:
             st.error('Data Ulasan Tidak Ada',icon='🚨')
+            st.write('Hal ini Disebabkan Belum Ada Ulasan')
         
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
@@ -506,8 +507,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
 
                 st.download_button(label="Export_Report",
                                    data=PDFbyte,
-                                   file_name="test.pdf",
+                                   file_name=f"Sentimen Analisis {jdl}.pdf",
                                    mime='application/octet-stream')
-            except Exception as e:
-                st.error(e)
+            except :
+                st.error('Data Ulasan Tidak Ada',icon='🚨')
                 st.write('Hal ini Disebabkan Belum Ada Ulasan')
