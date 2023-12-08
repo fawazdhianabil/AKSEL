@@ -319,7 +319,7 @@ def wordcloud(df,jdl):
     ax[1].axis('off')
     st.pyplot(fig)
 
-def wc_postive(df,jdl):
+def wc_positive(df,jdl):
     positive_review = df[df['polarity'] == 'positive']
     positive_words = positive_review['Untokenizing'].apply(split_word)
 
