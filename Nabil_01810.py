@@ -41,7 +41,7 @@ def scrap(alamat):
                                       lang='id',
                                       country='id',
                                       sort=Sort.NEWEST))
-  result1 = result[['userName','content','score',	'at','reviewCreatedVersion']]
+  result1 = result[['userName','content','score','at','reviewCreatedVersion','appVersion']]
   return result1
 
 def Case_Folding(text):
