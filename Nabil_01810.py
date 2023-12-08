@@ -243,8 +243,8 @@ def apk(df):
     plt.title("Versi Aplikasi yang Sering Menerima Review", fontweight ='bold', fontsize = 14)
 
     plt.xticks(versi_x, rotation = 30)
-    fig.savefig('apk.jpg')
     st.pyplot(fig)
+    fig.savefig('apk.jpg')
     
 def pos(kata_positif,jdl):
     # SENTIMEN positif
@@ -393,6 +393,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
                 st.write('='*88)
                 st.pyplot(fig)
+                st.write('='*88)
+                apk(df)
                 st.write('='*88)
                 wordcloud(df_n,jdl)
                 st.write('='*88)
