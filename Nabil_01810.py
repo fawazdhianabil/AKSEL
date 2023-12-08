@@ -505,7 +505,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 with open(f"Sentimen Analisis {jdl}.pdf", "rb") as pdf_file:
                     PDFbyte = pdf_file.read()
 
-                st.download_button(label="Export_Report",
+                st.download_button(label="Export Report",
                                    data=PDFbyte,
                                    file_name=f"Sentimen Analisis {jdl}.pdf",
                                    mime='application/octet-stream')
