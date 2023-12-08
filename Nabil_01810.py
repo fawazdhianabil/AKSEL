@@ -228,7 +228,24 @@ def sentimen(df):
   df['polarity'] = hasil[1]
 
   return df
+    
+def apk(df):
+    values = df.appVersion.value_counts(ascending=True).keys().tolist()
+    counts = df.appVersion.value_counts(ascending=True).tolist()
 
+    versi_x = values
+    versi_y = counts
+
+    fig = plt.figure(figsize = (12, 10))
+    plt.bar(versi_x, versi_y)
+    plt.xlabel("Versi", fontweight ='bold')
+    plt.ylabel("Frekuensi", fontweight ='bold')
+    plt.title("Versi Aplikasi yang Sering Menerima Review", fontweight ='bold', fontsize = 14)
+
+    plt.xticks(versi_x, rotation = 30)
+    fig.savefig('apk.jpg')
+    st.pyplot(fig)
+    
 def pos(kata_positif,jdl):
     # SENTIMEN positif
     
@@ -244,7 +261,7 @@ def pos(kata_positif,jdl):
     plt.title(f"Kata pada Sentimen Positive {jdl}", fontweight ='bold', fontsize = 14)
 
     plt.xticks(positif_x, rotation = 30)
-
+    fig.savefig('Positive.jpg')
     st.pyplot(fig)
 
 def neg(kata_negatif,jdl):
@@ -262,7 +279,7 @@ def neg(kata_negatif,jdl):
     plt.title(f"Kata pada Sentimen Negative {jdl}", fontweight ='bold', fontsize = 14)
 
     plt.xticks(negatif_x, rotation = 30)
-
+    fig.savefig('negative.jpg')
     st.pyplot(fig)
 
 def wordcloud(df,jdl):
