@@ -501,7 +501,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 pdf.write(1,f'Jumlah Sentiment Positive :{sizes[1]}')
 
                 pdf.output(f'Sentimen Analisis {jdl}.pdf','F')
-                with open(f"Sentimen Analisis {jdl}", "rb") as pdf_file:
+                with open(f"Sentimen Analisis {jdl}.pdf", "rb") as pdf_file:
                     PDFbyte = pdf_file.read()
 
                 st.download_button(label="Export_Report",
