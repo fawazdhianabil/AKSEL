@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+from streamlit_extras.app_logo import add_logo
 
 from fpdf import FPDF
 from PIL import Image
@@ -368,7 +369,7 @@ response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 
 with st.sidebar :
-    st.sidebar.image(img)
+    add_logo(img)
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
