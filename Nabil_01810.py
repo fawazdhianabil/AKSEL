@@ -431,12 +431,12 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 df_n = sentimen(df)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
+                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.success('Sentimen Analisis Berhasil!')
+                st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.write(df_n)
-                st.download_button(label="Download Table",
-                                   data=df_n.to_csv('Hasil Pelabelan Sentimen.csv',index=False,encoding='utf8'),
-                                   file_name=f"Hasil Pelabelan Sentimen {jdl}.csv",
-                                   mime='text/csv')
                 st.write('='*88)
                 st.write('Ringkasan Data :')
                 st.write('Data Sebelum Text Preprocessing :',df.shape[0])
