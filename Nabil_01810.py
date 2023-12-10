@@ -402,7 +402,7 @@ if (selected=='Crawling Data Playstore'):
             st.success(f'Crawling {result.shape[0]} Data Berhasil!')
             st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
             st.write(pd.DataFrame(result))
-            st.download_button(label='Download Excel', data = pd.DataFrame(result).to_excel(index=False), file_name='Data Mentah.xlsx')
+            st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
         else:
             st.error('Data Ulasan Tidak Ada',icon='🚨')
             j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
