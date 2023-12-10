@@ -434,8 +434,9 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 st.success('Sentimen Analisis Berhasil!')
                 st.write(df_n)
                 st.download_button(label="Download Table",
-                                   data=df_n.to_excel('Hasil Pelabelan Sentimen.xlsx',index=False),
-                                   file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx")
+                                   data=df_n.to_csv('Hasil Pelabelan Sentimen.csv',index=False).encode('utf-8'),
+                                   file_name=f"Hasil Pelabelan Sentimen {jdl}.csv",
+                                   mime='text/csv')
                 st.write('='*88)
                 st.write('Ringkasan Data :')
                 st.write('Data Sebelum Text Preprocessing :',df.shape[0])
