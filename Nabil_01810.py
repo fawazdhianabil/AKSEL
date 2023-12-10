@@ -369,9 +369,11 @@ with st.sidebar :
 
 if (selected=='Crawling Data Playstore'):
     st.title('Crawling Data Playstore')
-
     al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL','Merchant Mobile (QRIS)','IBB Mobile'),
                           index=None,placeholder='Pilih')
+    j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+    hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+    wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
     proses = st.button('Proses Crawling')
     if al == 'AKSEL':
         alamat = 'id.co.bankkalsel.mobile_banking'
@@ -390,6 +392,7 @@ if (selected=='Crawling Data Playstore'):
                              sort=Sort.NEWEST))
         if result.shape[0] > 0:
             st.success(f'Crawling {result.shape[0]} Data Berhasil!')
+            st.succes(f'Data Tanggal {hari} Pukul {wkt} WITA')
             st.write(pd.DataFrame(result))
         else:
             st.error('Data Ulasan Tidak Ada',icon='🚨')
@@ -453,7 +456,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 bulan(df,jdl)
 
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%m/%d/%Y")
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
                 wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 WIDTH =210
                 HEIGHT = 297
@@ -529,7 +532,11 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 df_n = sentimen(df)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
+                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.success('Sentimen Analisis Berhasil!')
+                st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.write(df_n)
                 st.write('='*88)
                 st.write('Ringkasan Data :')
@@ -540,7 +547,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
 
                 fig, ax = plt.subplots(figsize = (6, 6))
                 explode = (0.1, 0)
-                colors = ['red', 'blue']
+                colors = ['lightcoral', 'lightgreen']
                 ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
                 ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
                 st.write('='*88)
