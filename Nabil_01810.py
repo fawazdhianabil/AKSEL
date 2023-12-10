@@ -400,7 +400,7 @@ if (selected=='Crawling Data Playstore'):
                              sort=Sort.NEWEST))
         if result.shape[0] > 0:
             st.success(f'Crawling {result.shape[0]} Data Berhasil!')
-            st.succes(f'Data Tanggal {hari} Pukul {wkt} WITA')
+            st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
             st.write(pd.DataFrame(result))
             st.download_button(label='Download CSV', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
         else:
