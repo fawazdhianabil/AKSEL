@@ -370,7 +370,7 @@ custom_html = """
 <style>
     .banner {
         width: 80%;
-        height: 800px;
+        height: 80px;
         overflow: hidden;
     }
     .banner img {
