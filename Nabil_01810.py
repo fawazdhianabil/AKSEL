@@ -369,7 +369,7 @@ response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 
 with st.sidebar :
-    add_logo(response)
+    st.markdown("![](https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg)", unsafe_allow_html=True)
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
