@@ -369,12 +369,12 @@ custom_html = """
 </div>
 <style>
     .banner {
-        width: 80%;
-        height: 80px;
+        width: 50%;
+        height: 50px;
         overflow: hidden;
     }
     .banner img {
-        width: 80%;
+        width: 50%;
         object-fit: cover;
     }
 </style>
