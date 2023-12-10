@@ -361,27 +361,6 @@ def wc_negative(df,jdl):
     fig.savefig('wc_negative.jpg')
 
 
-st.set_page_config(layout="wide")
-# Custom HTML/CSS for the banner
-custom_html = """
-<div class="banner">
-    <img src="https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg">
-</div>
-<style>
-    .banner {
-        width: 50%;
-        height: 50px;
-        overflow: hidden;
-    }
-    .banner img {
-        width: 50%;
-        object-fit: cover;
-    }
-</style>
-"""
-# Display the custom HTML
-st.components.v1.html(custom_html)
-
 # code untuk streamlit
 st.title('Analisis Sentimen')
 
@@ -392,6 +371,7 @@ img = Image.open(BytesIO(response.content))
 
 
 with st.sidebar :
+    st.image(img,width = 100)
 
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
