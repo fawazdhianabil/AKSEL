@@ -436,9 +436,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 with open(f"Hasil Pelabelan {jdl}.xlsx", "rb") as xls_file:
                     xlsbyte = xls_file.read()
                 st.download_button(label="Download Table",
-                                   data=df_n.to_excel(f'Hasil Pelabelan Sentimen {jdl}.xlsx',index=False),
-                                   file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx",
-                                   mime='application/octet-stream')
+                                   data=df_n.to_excel('Hasil Pelabelan Sentimen.xlsx',index=False),
+                                   file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx")
                 st.write('='*88)
                 st.write('Ringkasan Data :')
                 st.write('Data Sebelum Text Preprocessing :',df.shape[0])
@@ -526,7 +525,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
                                    data=PDFbyte,
                                    file_name=f"Sentimen Analisis {jdl}.pdf",
                                    mime='application/octet-stream')
-            except :
+            except Exception as e :
+                st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 st.write('Hal ini Disebabkan Belum Ada Ulasan')
     else:
