@@ -435,7 +435,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 st.success('Sentimen Analisis Berhasil!')
                 st.write(df_n)
                 with open(f"Hasil Pelabelan {jdl}.xlsx", "rb") as xls_file:
-                xlsbyte = xls_file.read()
+                    xlsbyte = xls_file.read()
                 st.download_button(label="Download Table",
                                    data=xlsbyte,
                                    file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx",
