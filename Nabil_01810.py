@@ -369,19 +369,27 @@ response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 
 with st.sidebar :
-    st.markdown(
-        """
-        <style>
-            [data-testid="stSidebarNav"] {
-                background-image: url(https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg);
-                background-repeat: no-repeat;
-                padding-top: 120px;
-                background-position: 20px 20px;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+st.set_page_config(layout="wide")
+# Custom HTML/CSS for the banner
+    custom_html = """
+    <div class="banner">
+        <img src="https://img.freepik.com/premium-photo/wide-banner-with-many-random-square-hexagons-charcoal-dark-black-color_105589-1820.jpg" alt="Banner Image">
+    </div>
+    <style>
+        .banner {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        .banner img {
+            width: 100%;
+            object-fit: cover;
+        }
+    </style>
+    """
+    # Display the custom HTML
+    st.components.v1.html(custom_html)
+
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
