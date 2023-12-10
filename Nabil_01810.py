@@ -364,7 +364,7 @@ def wc_negative(df,jdl):
 # code untuk streamlit
 st.title('Analisis Sentimen')
 
-url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg'
+url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/bank-kalsel-logo.png'
 response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 
