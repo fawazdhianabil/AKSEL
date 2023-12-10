@@ -12,3 +12,4 @@ requests
 wordcloud
 fpdf
 Pillow
+streamlit-extras
