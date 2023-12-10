@@ -364,15 +364,12 @@ def wc_negative(df,jdl):
 # code untuk streamlit
 st.title('Analisis Sentimen')
 
-url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/bank-kalsel-logo.png'
-response = requests.get(url)
-img = Image.open(BytesIO(response.content))
-
-
+#url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/bank-kalsel-logo.png'
+#response = requests.get(url)
+#mg = Image.open(BytesIO(response.content))
 
 with st.sidebar :
-    st.image(img,width = 290)
-
+    #st.image(img,width = 290)
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
@@ -432,10 +429,17 @@ if (selected=='Analisis Sentimen by Lexicon'):
             try:
                 df = scrap(alamat=alamat)
                 df_n = sentimen(df)
+                df_n.to_excel(f'Hasil Pelabelan {jdl}.xlsx',index=False)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
                 st.success('Sentimen Analisis Berhasil!')
                 st.write(df_n)
+                with open(f"Hasil Pelabelan {jdl}.xlsx", "rb") as xls_file:
+                xlsbyte = xls_file.read()
+                st.download_button(label="Download Table",
+                                   data=xlsbyte,
+                                   file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx",
+                                   mime='application/octet-stream')
                 st.write('='*88)
                 st.write('Ringkasan Data :')
                 st.write('Data Sebelum Text Preprocessing :',df.shape[0])
@@ -519,7 +523,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 with open(f"Sentimen Analisis {jdl}.pdf", "rb") as pdf_file:
                     PDFbyte = pdf_file.read()
 
-                st.download_button(label="Export Report",
+                st.download_button(label="Download Report",
                                    data=PDFbyte,
                                    file_name=f"Sentimen Analisis {jdl}.pdf",
                                    mime='application/octet-stream')
