@@ -359,7 +359,28 @@ def wc_negative(df,jdl):
     wordcloud_negative.to_file('wc_negative.jpg')
     ax.axis('off')
     fig.savefig('wc_negative.jpg')
-    
+
+
+st.set_page_config(layout="wide")
+# Custom HTML/CSS for the banner
+custom_html = """
+<div class="banner">
+    <img src="https://img.freepik.com/premium-photo/wide-banner-with-many-random-square-hexagons-charcoal-dark-black-color_105589-1820.jpg" alt="Banner Image">
+</div>
+<style>
+    .banner {
+        width: 160%;
+        height: 200px;
+        overflow: hidden;
+    }
+    .banner img {
+        width: 100%;
+        object-fit: cover;
+    }
+</style>
+"""
+# Display the custom HTML
+st.components.v1.html(custom_html)
 
 # code untuk streamlit
 st.title('Analisis Sentimen')
@@ -368,27 +389,9 @@ url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg'
 response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 
+
+
 with st.sidebar :
-    st.set_page_config(layout="wide")
-    # Custom HTML/CSS for the banner
-    custom_html = """
-    <div class="banner">
-        <img src="https://img.freepik.com/premium-photo/wide-banner-with-many-random-square-hexagons-charcoal-dark-black-color_105589-1820.jpg" alt="Banner Image">
-    </div>
-    <style>
-        .banner {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-        }
-        .banner img {
-            width: 100%;
-            object-fit: cover;
-        }
-    </style>
-    """
-    # Display the custom HTML
-    st.components.v1.html(custom_html)
 
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
