@@ -365,7 +365,7 @@ st.set_page_config(layout="wide")
 # Custom HTML/CSS for the banner
 custom_html = """
 <div class="banner">
-    <img src="https://img.freepik.com/premium-photo/wide-banner-with-many-random-square-hexagons-charcoal-dark-black-color_105589-1820.jpg" alt="Banner Image">
+    <img src="https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg">
 </div>
 <style>
     .banner {
