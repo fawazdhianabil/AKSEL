@@ -2,9 +2,10 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 from fpdf import FPDF
+from PIL import Image
 from datetime import datetime,timezone
 from zoneinfo import ZoneInfo
-
+from io import BytesIO
 
 import numpy as np
 import pandas as pd
@@ -361,8 +362,12 @@ def wc_negative(df,jdl):
 # code untuk streamlit
 st.title('Analisis Sentimen')
 
+url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/logo.jpeg'
+response = requests.get(url)
+img = Image.open(BytesIO(response.content))
+
 with st.sidebar :
-    st.image()
+    st.image(img)
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
