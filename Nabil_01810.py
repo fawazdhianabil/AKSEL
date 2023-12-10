@@ -402,7 +402,7 @@ if (selected=='Crawling Data Playstore'):
             st.success(f'Crawling {result.shape[0]} Data Berhasil!')
             st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
             st.write(pd.DataFrame(result))
-            st.download_button(label='Download CSV', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
+            st.download_button(label='Download Excel', data = pd.DataFrame(result).to_xlsx(index=False), file_name='Data Mentah.xlsx')
         else:
             st.error('Data Ulasan Tidak Ada',icon='🚨')
             j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
@@ -530,8 +530,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                                    data=PDFbyte,
                                    file_name=f"Sentimen Analisis {jdl}.pdf",
                                    mime='application/octet-stream')
-            except Exception as e :
-                st.write(e)
+            except :
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 st.write('Hal ini Disebabkan Belum Ada Ulasan')
     else:
