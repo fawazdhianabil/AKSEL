@@ -371,7 +371,7 @@ img = Image.open(BytesIO(response.content))
 
 
 with st.sidebar :
-    st.image(img,width = 295)
+    st.image(img,width = 293)
 
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
