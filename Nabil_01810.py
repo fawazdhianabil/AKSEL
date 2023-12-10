@@ -362,6 +362,7 @@ def wc_negative(df,jdl):
 st.title('Analisis Sentimen')
 
 with st.sidebar :
+    st.image()
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
