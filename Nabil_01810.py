@@ -6,6 +6,7 @@ from PIL import Image
 from datetime import datetime,timezone
 from zoneinfo import ZoneInfo
 from io import BytesIO
+import requests
 
 import numpy as np
 import pandas as pd
