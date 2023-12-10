@@ -402,8 +402,15 @@ if (selected=='Crawling Data Playstore'):
             st.success(f'Crawling {result.shape[0]} Data Berhasil!')
             st.succes(f'Data Tanggal {hari} Pukul {wkt} WITA')
             st.write(pd.DataFrame(result))
+            @st.cache
+            st.download_button(label='Download CSV', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
         else:
             st.error('Data Ulasan Tidak Ada',icon='🚨')
+            j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+            hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+            wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
+            st.error('Sentimen Analisis Berhasil!')
+            st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
             st.write('Hal ini Disebabkan Belum Ada Ulasan')
         
 if (selected=='Analisis Sentimen by Lexicon'):
@@ -583,4 +590,9 @@ if (selected=='Analisis Sentimen by Lexicon'):
 
             except :
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
+                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
+                st.error('Sentimen Analisis Berhasil!')
+                st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.write('Hal ini Disebabkan Belum Ada Ulasan')
