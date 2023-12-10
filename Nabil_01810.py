@@ -369,7 +369,7 @@ response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 
 with st.sidebar :
-    add_logo(img)
+    add_logo(url)
     selected = option_menu('Main Menu',
                            ['Crawling Data Playstore',
                             'Analisis Sentimen by Lexicon'],
