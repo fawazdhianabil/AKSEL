@@ -429,7 +429,6 @@ if (selected=='Analisis Sentimen by Lexicon'):
             try:
                 df = scrap(alamat=alamat)
                 df_n = sentimen(df)
-                df_n.to_excel(f'Hasil Pelabelan {jdl}.xlsx',index=False)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
                 st.success('Sentimen Analisis Berhasil!')
@@ -437,7 +436,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 with open(f"Hasil Pelabelan {jdl}.xlsx", "rb") as xls_file:
                     xlsbyte = xls_file.read()
                 st.download_button(label="Download Table",
-                                   data=xlsbyte,
+                                   data=df_n.to_excel(f'Hasil Pelabelan Sentimen {jdl}.xlsx',index=False),
                                    file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx",
                                    mime='application/octet-stream')
                 st.write('='*88)
