@@ -433,8 +433,6 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 labels = list(df_n['polarity'].value_counts().index)
                 st.success('Sentimen Analisis Berhasil!')
                 st.write(df_n)
-                with open(f"Hasil Pelabelan {jdl}.xlsx", "rb") as xls_file:
-                    xlsbyte = xls_file.read()
                 st.download_button(label="Download Table",
                                    data=df_n.to_excel('Hasil Pelabelan Sentimen.xlsx',index=False),
                                    file_name=f"Hasil Pelabelan Sentimen {jdl}.xlsx")
