@@ -409,7 +409,7 @@ if (selected=='Crawling Data Playstore'):
             hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
             wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
             st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
-            st.write('Hal ini Disebabkan Belum Ada Ulasan')
+            st.error('Hal ini Disebabkan Belum Ada Ulasan')
         
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
@@ -531,7 +531,11 @@ if (selected=='Analisis Sentimen by Lexicon'):
                                    mime='application/octet-stream')
             except :
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
-                st.write('Hal ini Disebabkan Belum Ada Ulasan')
+                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
+                st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
+                st.error('Hal ini Disebabkan Belum Ada Ulasan')
     else:
         proses_analisis = st.button('Proses Analisis')
         if al == 'AKSEL':
