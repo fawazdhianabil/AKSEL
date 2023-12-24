@@ -689,7 +689,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
-    else:
+    elif pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
         proses_analisis = st.button('Proses Analisis')
         if al == 'AKSEL':
             alamat = 'id.co.bankkalsel.mobile_banking'
@@ -704,6 +704,58 @@ if (selected=='Analisis Sentimen by Lexicon'):
             try:
                 df = scrap(alamat=alamat)
                 df_n = sentimen(df)
+                sizes = [count for count in df_n['polarity'].value_counts()]
+                labels = list(df_n['polarity'].value_counts().index)
+                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
+                st.success('Sentimen Analisis Berhasil!')
+                st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
+                st.write(df_n)
+                st.write('='*88)
+                st.write('Ringkasan Data :')
+                st.write('Data Sebelum Text Preprocessing :',df.shape[0])
+                st.write('Data Sesudah Text Preprocessing :',df_n.shape[0])
+                st.write('Jumlah Sentiment Negative :',sizes[0])
+                st.write('Jumlah Sentiment Positive :',sizes[1])
+
+                fig, ax = plt.subplots(figsize = (6, 6))
+                explode = (0.1, 0)
+                colors = ['lightcoral', 'lightgreen']
+                ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
+                ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
+                st.write('='*88)
+                st.pyplot(fig)
+                fig.savefig('Polarity.jpg')
+                st.write('='*88)
+                apk(df)
+                st.write('='*88)
+                wordcloud(df_n,jdl)
+                st.write('='*88)
+                kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
+                kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
+                pos(kata_positif,jdl)
+                st.write('='*88)
+                neg(kata_negatif,jdl)
+                st.write('='*88)
+                jam(df,jdl)
+                st.write('='*88)
+                bulan(df,jdl)
+
+            except :
+                st.error('Data Ulasan Tidak Ada',icon='🚨')
+                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
+                st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
+                st.error('Hal ini Disebabkan Belum Ada Ulasan')
+    
+    elif pil == 'Tidak Menyimpan Report' and sc == 'Upload Data':
+        proses_analisis = st.button('Proses Analisis')
+        if proses_analisis:
+            try:
+                st.dataframe(data_file_raw[['userName','content','score','at','reviewCreatedVersion','appVersion']])
+                df_n = sentimen(data_file_raw[['userName','content','score','at','reviewCreatedVersion','appVersion']])
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
