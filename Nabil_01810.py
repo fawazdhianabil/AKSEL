@@ -186,7 +186,6 @@ def sentimen(df):
   df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'baru')
 
   df['Final_Cek'] = df['Final_Cek'].drop_duplicates().apply(split_word)
-  df['Untokenizing'] = df['Final_Cek'].apply(satu).replace('', np.nan, inplace=True)
   df = df.dropna()
   df = df.reset_index(drop=True)
 
