@@ -420,6 +420,15 @@ if (selected=='Crawling Data Playstore'):
                 
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
+    sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
+                                                 'Upload Data'),
+                          index=None,placeholder='Pilih')
+    if sc == 'Upload Data':
+        data_file = st.file_uploader("Upload CSV file",type=["csv"])
+        if data_file is not None:
+            data_file_raw = pd.read_csv(data_file)
+        else :
+            st.write('Silahkan Upload Data')
     al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
                                                  'Merchant Mobile (QRIS)',
                                                  'IBB Mobile',
@@ -428,9 +437,6 @@ if (selected=='Analisis Sentimen by Lexicon'):
                                                  'BNI Mobile',
                                                  'BTN Mobile',
                                                  'Perusahaan Lainnya'),
-                          index=None,placeholder='Pilih')
-    sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
-                                                 'Upload Data'),
                           index=None,placeholder='Pilih')
     
     pil =  st.selectbox('Simpan Sebagai...',('PDF','Tidak Menyimpan Report'),
@@ -570,17 +576,13 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
+                
     elif pil == 'PDF' and sc == 'Upload Data':
-        data_file = st.file_uploader("Upload CSV file",type=["csv"])
-        if data_file is not None:
-            df = pd.read_csv(data_file)
-        else :
-            st.write('Silahkan Upload Data')
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
-                st.dataframe(df[['userName','content','score','at','reviewCreatedVersion','appVersion']])
-                df_n = sentimen(df[['userName','content','score','at','reviewCreatedVersion','appVersion']])
+                st.dataframe(data_file_raw[['userName','content','score','at','reviewCreatedVersion','appVersion']])
+                df_n = sentimen(data_file_raw[['userName','content','score','at','reviewCreatedVersion','appVersion']])
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
