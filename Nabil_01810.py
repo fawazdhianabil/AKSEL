@@ -12,8 +12,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import json
-from app_store_scraper import AppStore
 from google_play_scraper import Sort, reviews_all
 from nlp_id.lemmatizer import Lemmatizer
 
@@ -384,95 +382,44 @@ if (selected=='Crawling Data Playstore'):
                                                  'BTN Mobile',
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
-    sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
-                                                 'App Store'),
-                          index=None,placeholder='Pilih')
-    if sc == 'Google Playstore':
-        if al == 'AKSEL':
-            alamat = 'id.co.bankkalsel.mobile_banking'
-            jdl = 'AKSEL'
-        elif al == 'Merchant Mobile (QRIS)':
-            alamat = 'com.dwidasa.kalsel.mbqris.android'
-            jdl = 'Merchant Mobile (QRIS)'
-        elif al == 'IBB Mobile':
-            alamat = 'id.co.bankkalsel.mobileibb'
-            jdl = 'IBB Mobile'
-        elif al == 'Brimo':
-            alamat = 'id.co.bri.brimo'
-            jdl = 'Brimo'
-        elif al == 'Livin By Mandiri':
-            alamat = 'id.bmri.livin'
-            jdl = 'Livin By Mandiri'
-        elif al == 'BNI Mobile':
-            alamat = 'src.com.bni'
-            jdl = 'BNI Mobile'
-        elif al == 'BTN Mobile':
-            alamat = 'id.co.btn.mobilebanking.android'
-            jdl = 'BTN Mobile'
-        elif al == 'Perusahaan Lainnya':
-            alamat = st.text_input('Masukkan URL Perusahaan',key=0)
-            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
-        proses = st.button('Proses Crawling',key='gp')
-        if proses:
-            result1 = scrap(alamat=alamat)
-            result = result1[0]
-            if result.shape[0] > 0:
-                st.success(f'Crawling {result.shape[0]} Data Berhasil!')
-                st.write(pd.DataFrame(result))
-                st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
-            else:
-                st.error('Data Ulasan Tidak Ada',icon='🚨')
-                st.error('Hal ini Disebabkan Belum Ada Ulasan')
-
-    #scrap app store
-    elif sc == 'App Store':
-        if al == 'AKSEL':
-            jdl = 'AKSEL'
-            nama = 'aksel-by-bank-kalsel'
-            id = '1587322474'
-        elif al == 'Merchant Mobile (QRIS)':
-            st.error('Aplikasi Belum Tersedia di App Store')
-        elif al == 'IBB Mobile':
-            jdl = 'IBB Mobile'
-            nama = 'mobile-ibb-approval-kalsel'
-            id = '1588033890'
-        elif al == 'Brimo':
-            jdl = 'Brimo'
-            nama = 'brimo-bri'
-            id = '1439730817'
-        elif al == 'Livin By Mandiri':
-            jdl = 'Livin By Mandiri'
-            nama = 'livin-by-mandiri'
-            id = '1555414743'
-        elif al == 'BNI Mobile':
-            jdl = 'BNI Mobile'
-            nama = 'bni-mobile-banking'
-            id = '967205539'
-        elif al == 'BTN Mobile':
-            jdl = 'BTN Mobile'
-            nama = 'btn-mobile'
-            id = '6443466424'
-        elif al == 'Perusahaan Lainnya':
-            alamat = st.text_input('Masukkan ID Perusahaan',key='ap1')
-            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key='ap2')
-            nama = st.text_input('Masukkan Kode Nama Aplikasi Perusahaan',key='ap3')
-        proses = st.button('Proses Crawling',key='ap4')
-        if proses:
-            rv = AppStore(country='id', app_name=nama, app_id =id)
-            rv.review(how_many=2000)
-            rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
-            result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
-            if result.shape[0] > 0:
-                st.success(f'Crawling {result.shape[0]} Data Berhasil!')
-                st.write(result)
-                st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
-            else:
-                st.error('Data Ulasan Tidak Ada',icon='🚨')
-                st.error('Hal ini Disebabkan Belum Ada Ulasan')
+    if al == 'AKSEL':
+        alamat = 'id.co.bankkalsel.mobile_banking'
+        jdl = 'AKSEL'
+    elif al == 'Merchant Mobile (QRIS)':
+        alamat = 'com.dwidasa.kalsel.mbqris.android'
+        jdl = 'Merchant Mobile (QRIS)'
+    elif al == 'IBB Mobile':
+        alamat = 'id.co.bankkalsel.mobileibb'
+        jdl = 'IBB Mobile'
+    elif al == 'Brimo':
+        alamat = 'id.co.bri.brimo'
+        jdl = 'Brimo'
+    elif al == 'Livin By Mandiri':
+        alamat = 'id.bmri.livin'
+        jdl = 'Livin By Mandiri'
+    elif al == 'BNI Mobile':
+        alamat = 'src.com.bni'
+        jdl = 'BNI Mobile'
+    elif al == 'BTN Mobile':
+        alamat = 'id.co.btn.mobilebanking.android'
+        jdl = 'BTN Mobile'
+    elif al == 'Perusahaan Lainnya':
+        alamat = st.text_input('Masukkan URL Perusahaan',key=0)
+        jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
+    proses = st.button('Proses Crawling',key='gp')
+    if proses:
+        result1 = scrap(alamat=alamat)
+        result = result1[0]
+        if result.shape[0] > 0:
+            st.success(f'Crawling {result.shape[0]} Data Berhasil!')
+            st.write(pd.DataFrame(result))
+            st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
+        else:
+            st.error('Data Ulasan Tidak Ada',icon='🚨')
+            st.error('Hal ini Disebabkan Belum Ada Ulasan')
                 
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
-
     al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
                                                  'Merchant Mobile (QRIS)',
                                                  'IBB Mobile',
@@ -483,7 +430,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
     sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
-                                                 'App Store'),
+                                                 'Upload Data'),
                           index=None,placeholder='Pilih')
     
     pil =  st.selectbox('Simpan Sebagai...',('PDF','Tidak Menyimpan Report'),
@@ -623,21 +570,13 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
-    elif pil == 'PDF' and sc == 'App Store':
+    elif pil == 'PDF' and sc == 'Upload Data':
         proses_analisis = st.button('Proses Analisis')
-        if al == 'AKSEL':
-            alamat = 'id.co.bankkalsel.mobile_banking'
-            jdl = 'AKSEL'
-        elif al == 'Merchant Mobile (QRIS)':
-            alamat = 'com.dwidasa.kalsel.mbqris.android'
-            jdl = 'Merchant Mobile (QRIS)'
-        elif al == 'IBB Mobile':
-            alamat = 'id.co.bankkalsel.mobileibb'
-            jdl = 'IBB Mobile'
-
         if proses_analisis:
             try:
-                df = scrap(alamat=alamat)
+                data_file = st.file_uploader("Upload CSV file",type=["csv"])
+                df = pd.read_csv(data_file)
+                st.dataframe(df)
                 df_n = sentimen(df)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
