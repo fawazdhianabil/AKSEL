@@ -367,12 +367,13 @@ st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='
 with st.sidebar :
     #st.image(img,width = 290)
     selected = option_menu('Main Menu',
-                           ['Crawling Data Playstore',
-                            'Analisis Sentimen by Lexicon'],
+                           ['Scraping Data Playstore',
+                            'Analisis Sentimen (Aplikasi)',
+                            'Analisis Sentimen (Produk)'],
                             default_index=0)
 #scraping playstore
-if (selected=='Crawling Data Playstore'):
-    st.title('Crawling Data Playstore')
+if (selected=='Scraping Data Playstore'):
+    st.title('Scraping Data Playstore')
     al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
                                                  'Merchant Mobile (QRIS)',
                                                  'IBB Mobile',
@@ -406,12 +407,12 @@ if (selected=='Crawling Data Playstore'):
     elif al == 'Perusahaan Lainnya':
         alamat = st.text_input('Masukkan URL Perusahaan',key=0)
         jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
-    proses = st.button('Proses Crawling',key='gp')
+    proses = st.button('Proses Scraping',key='gp')
     if proses:
         result1 = scrap(alamat=alamat)
         result = result1[0]
         if result.shape[0] > 0:
-            st.success(f'Crawling {result.shape[0]} Data Berhasil!')
+            st.success(f'Scraping {result.shape[0]} Data Berhasil!')
             st.write(pd.DataFrame(result))
             st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
         else:
