@@ -41,20 +41,20 @@ from nltk.corpus import stopwords
 listStopword =  set(stopwords.words('indonesian'))
 
 def scrap(alamat):
-  result = pd.DataFrame(reviews_all(alamat,
+    result = pd.DataFrame(reviews_all(alamat,
                                       lang='id',
                                       country='id',
                                       sort=Sort.NEWEST))
-  result1 = result[['userName','content','score','at','reviewCreatedVersion','appVersion']]
-  return result, result1
+    result1 = result[['userName','content','score','at','reviewCreatedVersion','appVersion']]
+    return result, result1
 
 def scrap_app(nama,id):
-  app = AppStore(country='id', app_name=nama, app_id = id)
-  app.review(how_many=10000)
-  df = pd.DataFrame(np.array(app.reviews),columns=['review'])
-  df2 = df.join(pd.DataFrame(df.pop('review').tolist()))
-  df2 = df2.rename(columns={'date':'at','review':'content'})
-  return df2
+    rv = AppStore(country='id', app_name=nama, app_id =id)
+    rv.review(how_many=10000)
+    rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
+    result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
+    df2 = result.rename(columns={'date':'at','review':'content'})
+    return df2
 
 def Case_Folding(text):
     #menghapus link
@@ -422,7 +422,8 @@ if (selected=='Crawling Data Playstore'):
             jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
         proses = st.button('Proses Crawling',key='gp')
         if proses:
-            result = scrap(alamat=alamat)
+            result1 = scrap(alamat=alamat)
+            result = result1[0]
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(pd.DataFrame(result))
@@ -466,7 +467,6 @@ if (selected=='Crawling Data Playstore'):
         proses = st.button('Proses Crawling',key='ap4')
         if proses:
             result = scrap_app(nama,id)
-            st.write(result)
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(result)
@@ -522,7 +522,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
-                df = scrap(alamat=alamat)
+                df1 = scrap(alamat=alamat)
+                df = df1[1]
                 df_n = sentimen(df)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
