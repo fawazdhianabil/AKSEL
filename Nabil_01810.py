@@ -420,8 +420,8 @@ if (selected=='Scraping Data Playstore'):
             st.error('Hal ini Disebabkan Belum Ada Ulasan')
 
 #================================ANALISIS=========================
-if (selected=='Analisis Sentimen by Lexicon'):
-    st.title('Analisis Sentimen by Lexicon')
+if (selected=='Analisis Sentimen (Aplikasi)'):
+    st.title('Analisis Sentimen (Aplikasi)')
     sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
                                                  'Upload Data'),
                           index=None,placeholder='Pilih')
