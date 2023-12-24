@@ -428,7 +428,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
         data_file = st.file_uploader("Upload CSV file",type=["csv"])
         if data_file is not None:
             data_file_raw = pd.read_csv(data_file)
-            jdl = st.input_text('Masukkan Nama Perusahaan')
+            jdl = st.text_input('Masukkan Nama Aplikasi')
         else :
             st.write('Silahkan Upload Data')
     elif sc == 'Google Playstore':
