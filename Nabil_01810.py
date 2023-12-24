@@ -459,7 +459,7 @@ if (selected=='Crawling Data Playstore'):
         proses = st.button('Proses Crawling',key='ap4')
         if proses:
             rv = AppStore(country='id', app_name=nama, app_id =id)
-            rv.review(how_many=10000)
+            rv.review(how_many=2000)
             rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
             result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
             result = result.rename(columns={'date':'at','review':'content'})
