@@ -149,7 +149,7 @@ def sentimen(df):
 
   df['Text_Clean'] = text_clean
 
-  df['Text_Clean'] = df['Text_Clean'].drop_duplicates()
+  df['Final_Cek'] = df['Final_Cek'].apply(satu).replace('', np.nan, inplace=True).drop_duplicates().apply(split_word)
   df = df.dropna()
   df = df.reset_index(drop=True)
 
