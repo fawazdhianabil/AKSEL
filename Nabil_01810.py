@@ -186,9 +186,10 @@ def sentimen(df):
   df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'baru')
 
   df['Final_Cek'] = df['Final_Cek'].drop_duplicates().apply(split_word)
-  df['Untokenizing'] = df['Final_Cek'].apply(satu)
   df = df.dropna()
   df = df.reset_index(drop=True)
+
+  df['Untokenizing'] = df['Final_Cek'].apply(satu)
 
   # Determine sentiment polarity of tweets using indonesia sentiment lexicon (source : https://github.com/fajri91/InSet)
 
