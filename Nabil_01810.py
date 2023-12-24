@@ -462,7 +462,6 @@ if (selected=='Crawling Data Playstore'):
             rv.review(how_many=2000)
             rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
             result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
-            result = result.rename(columns={'date':'at','review':'content'})
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(result)
