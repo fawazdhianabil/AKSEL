@@ -689,7 +689,9 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
-    elif pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
+
+    
+    if pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
         if al == 'AKSEL':
             alamat = 'id.co.bankkalsel.mobile_banking'
             jdl = 'AKSEL'
@@ -712,12 +714,13 @@ if (selected=='Analisis Sentimen by Lexicon'):
             alamat = 'id.co.btn.mobilebanking.android'
             jdl = 'BTN Mobile'
         elif al == 'Perusahaan Lainnya':
-            alamat = st.text_input('Masukkan URL Perusahaan',key=2)
-            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=3)
+            alamat = st.text_input('Masukkan URL Perusahaan',key=0)
+            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
-                df = scrap(alamat=alamat)
+                df1 = scrap(alamat=alamat)
+                df = df1[1]
                 df_n = sentimen(df)
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
