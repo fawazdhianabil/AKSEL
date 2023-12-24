@@ -48,13 +48,6 @@ def scrap(alamat):
     result1 = result[['userName','content','score','at','reviewCreatedVersion','appVersion']]
     return result, result1
 
-def scrap_app(nama,id):
-  app = AppStore(country='id', app_name=nama, app_id = id)
-  app.review(how_many=20000)
-  df = pd.DataFrame(np.array(app.reviews),columns=['review'])
-  df2 = df.join(pd.DataFrame(df.pop('review').tolist())).rename(columns={'date':'at','review':'content'})
-  return df2
-
 def Case_Folding(text):
     #menghapus link
     text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", text)
@@ -465,7 +458,10 @@ if (selected=='Crawling Data Playstore'):
             nama = st.text_input('Masukkan Kode Nama Aplikasi Perusahaan',key='ap3')
         proses = st.button('Proses Crawling',key='ap4')
         if proses:
-            result = scrap_app(nama,id)
+            rv = AppStore(country='id', app_name=nama, app_id =id)
+            rv.review(how_many=10000)
+            rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
+            result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist())).rename(columns={'date':'at','review':'content'})
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(result)
