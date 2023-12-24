@@ -514,7 +514,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
         elif al == 'Perusahaan Lainnya':
             alamat = st.text_input('Masukkan URL Perusahaan',key=0)
             jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
-            proses_analisis = st.button('Proses Analisis',key='analisis')
+        proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
                 df = scrap(alamat=alamat)
