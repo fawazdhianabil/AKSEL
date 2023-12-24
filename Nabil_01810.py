@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-from streamlit_extras.app_logo import add_logo
 
 from fpdf import FPDF
 from PIL import Image
@@ -13,6 +12,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import json
+from app_store_scraper import AppStore
 from google_play_scraper import Sort, reviews_all
 from nlp_id.lemmatizer import Lemmatizer
 
@@ -185,10 +186,9 @@ def sentimen(df):
   df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'baru')
 
   df['Final_Cek'] = df['Final_Cek'].drop_duplicates().apply(split_word)
+  df['Untokenizing'] = df['Final_Cek'].apply(satu).replace('', np.nan, inplace=True)
   df = df.dropna()
   df = df.reset_index(drop=True)
-
-  df['Untokenizing'] = df['Final_Cek'].apply(satu)
 
   # Determine sentiment polarity of tweets using indonesia sentiment lexicon (source : https://github.com/fajri91/InSet)
 
@@ -362,11 +362,8 @@ def wc_negative(df,jdl):
 
 
 # code untuk streamlit
-st.title('Analisis Sentimen')
-
-#url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/bank-kalsel-logo.png'
-#response = requests.get(url)
-#mg = Image.open(BytesIO(response.content))
+st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
+    
 
 with st.sidebar :
     #st.image(img,width = 290)
@@ -377,40 +374,103 @@ with st.sidebar :
 
 if (selected=='Crawling Data Playstore'):
     st.title('Crawling Data Playstore')
-    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL','Merchant Mobile (QRIS)','IBB Mobile'),
+    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
+                                                 'Merchant Mobile (QRIS)',
+                                                 'IBB Mobile',
+                                                 'Brimo',
+                                                 'Livin By Mandiri',
+                                                 'BNI Mobile',
+                                                 'BTN Mobile',
+                                                 'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
-    j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-    hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
-    wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
-    proses = st.button('Proses Crawling')
-    if al == 'AKSEL':
-        alamat = 'id.co.bankkalsel.mobile_banking'
-        jdl = 'AKSEL'
-    elif al == 'Merchant Mobile (QRIS)':
-        alamat = 'com.dwidasa.kalsel.mbqris.android'
-        jdl = 'Merchant Mobile (QRIS)'
-    elif al == 'IBB Mobile':
-        alamat = 'id.co.bankkalsel.mobileibb'
-        jdl = 'IBB Mobile'
-
-    if proses:
-        result = pd.DataFrame(reviews_all(alamat,
+    sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
+                                                 'App Store',
+                                                 'Perusahaan Lainnya'),
+                          index=None,placeholder='Pilih')
+    if sc == 'Google Playstore':
+        if al == 'AKSEL':
+            alamat = 'id.co.bankkalsel.mobile_banking'
+            jdl = 'AKSEL'
+        elif al == 'Merchant Mobile (QRIS)':
+            alamat = 'com.dwidasa.kalsel.mbqris.android'
+            jdl = 'Merchant Mobile (QRIS)'
+        elif al == 'IBB Mobile':
+            alamat = 'id.co.bankkalsel.mobileibb'
+            jdl = 'IBB Mobile'
+        elif al == 'Brimo':
+            alamat = 'id.co.bri.brimo'
+            jdl = 'Brimo'
+        elif al == 'Livin By Mandiri':
+            alamat = 'id.bmri.livin'
+            jdl = 'Livin By Mandiri'
+        elif al == 'BNI Mobile':
+            alamat = 'src.com.bni'
+            jdl = 'BNI Mobile'
+        elif al == 'BTN Mobile':
+            alamat = 'id.co.btn.mobilebanking.android'
+            jdl = 'BTN Mobile'
+        elif al == 'Perusahaan Lainnya':
+            alamat = st.text_input('Masukkan URL Perusahaan',key=0)
+            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
+        proses = st.button('Proses Crawling',key='gp')
+        if proses:
+            result = pd.DataFrame(reviews_all(alamat,
                              lang='id',
                              country='id',
                              sort=Sort.NEWEST))
-        if result.shape[0] > 0:
-            st.success(f'Crawling {result.shape[0]} Data Berhasil!')
-            st.success(f'Data Tanggal {hari} Pukul {wkt} WITA')
-            st.write(pd.DataFrame(result))
-            st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
-        else:
-            st.error('Data Ulasan Tidak Ada',icon='🚨')
-            j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-            hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
-            wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
-            st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
-            st.error('Hal ini Disebabkan Belum Ada Ulasan')
-        
+            if result.shape[0] > 0:
+                st.success(f'Crawling {result.shape[0]} Data Berhasil!')
+                st.write(pd.DataFrame(result))
+                st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
+            else:
+                st.error('Data Ulasan Tidak Ada',icon='🚨')
+                st.error('Hal ini Disebabkan Belum Ada Ulasan')
+    elif sc == 'App Store':
+        if al == 'AKSEL':
+            jdl = 'AKSEL'
+            nama = 'aksel-by-bank-kalsel'
+            id = '1587322474'
+        elif al == 'Merchant Mobile (QRIS)':
+            st.error('Aplikasi Belum Tersedia di App Store')
+        elif al == 'IBB Mobile':
+            jdl = 'IBB Mobile'
+            nama = 'mobile-ibb-approval-kalsel'
+            id = '1588033890'
+        elif al == 'Brimo':
+            jdl = 'Brimo'
+            nama = 'brimo-bri'
+            id = '1439730817'
+        elif al == 'Livin By Mandiri':
+            jdl = 'Livin By Mandiri'
+            nama = 'livin-by-mandiri'
+            id = '1555414743'
+        elif al == 'BNI Mobile':
+            jdl = 'BNI Mobile'
+            nama = 'bni-mobile-banking'
+            id = '967205539'
+        elif al == 'BTN Mobile':
+            jdl = 'BTN Mobile'
+            nama = 'btn-mobile'
+            id = '6443466424'
+        elif al == 'Perusahaan Lainnya':
+            alamat = st.text_input('Masukkan ID Perusahaan',key='ap1')
+            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key='ap2')
+            nama = st.text_input('Masukkan Kode Nama Aplikasi Perusahaan',key='ap3')
+        proses = st.button('Proses Crawling',key='ap4')
+        if proses:
+            rv = AppStore(country='id', app_name=nama, app_id =id)
+            rv.review(how_many=10000)
+            rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
+            result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
+
+            if result.shape[0] > 0:
+                st.success(f'Crawling {result.shape[0]} Data Berhasil!')
+                st.write(result)
+                st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
+            else:
+                st.error('Data Ulasan Tidak Ada',icon='🚨')
+                st.error('Hal ini Disebabkan Belum Ada Ulasan')
+                
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
 
