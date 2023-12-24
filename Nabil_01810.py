@@ -489,7 +489,7 @@ if (selected=='Analisis Sentimen by Lexicon'):
     pil =  st.selectbox('Simpan Sebagai...',('PDF','Tidak Menyimpan Report'),
                           index=None,placeholder='Pilih')
     
-    if pil == 'PDF' and sc == 'Google Playstore:
+    if pil == 'PDF' and sc == 'Google Playstore':
         if al == 'AKSEL':
             alamat = 'id.co.bankkalsel.mobile_banking'
             jdl = 'AKSEL'
