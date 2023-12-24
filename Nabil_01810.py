@@ -571,11 +571,11 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
     elif pil == 'PDF' and sc == 'Upload Data':
+        data_file = st.file_uploader("Upload CSV file",type=["csv"])
+        df = pd.read_csv(data_file)
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
-                data_file = st.file_uploader("Upload CSV file",type=["csv"])
-                df = pd.read_csv(data_file)
                 st.dataframe(df)
                 df_n = sentimen(df)
                 sizes = [count for count in df_n['polarity'].value_counts()]
