@@ -417,7 +417,8 @@ if (selected=='Crawling Data Playstore'):
         else:
             st.error('Data Ulasan Tidak Ada',icon='🚨')
             st.error('Hal ini Disebabkan Belum Ada Ulasan')
-                
+
+#================================ANALISIS=========================
 if (selected=='Analisis Sentimen by Lexicon'):
     st.title('Analisis Sentimen by Lexicon')
     sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
@@ -427,16 +428,18 @@ if (selected=='Analisis Sentimen by Lexicon'):
         data_file = st.file_uploader("Upload CSV file",type=["csv"])
         if data_file is not None:
             data_file_raw = pd.read_csv(data_file)
+            jdl = st.input_text('Masukkan Nama Perusahaan')
         else :
             st.write('Silahkan Upload Data')
-    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
-                                                 'Merchant Mobile (QRIS)',
-                                                 'IBB Mobile',
-                                                 'Brimo',
-                                                 'Livin By Mandiri',
-                                                 'BNI Mobile',
-                                                 'BTN Mobile',
-                                                 'Perusahaan Lainnya'),
+    elif sc == 'Google Playstore':
+        al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
+                                                     'Merchant Mobile (QRIS)',
+                                                     'IBB Mobile',
+                                                     'Brimo',
+                                                     'Livin By Mandiri',
+                                                     'BNI Mobile',
+                                                     'BTN Mobile',
+                                                     'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
     
     pil =  st.selectbox('Simpan Sebagai...',('PDF','Tidak Menyimpan Report'),
