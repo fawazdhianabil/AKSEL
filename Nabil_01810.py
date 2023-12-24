@@ -49,12 +49,11 @@ def scrap(alamat):
     return result, result1
 
 def scrap_app(nama,id):
-    rv = AppStore(country='id', app_name=nama, app_id =id)
-    rv.review(how_many=10000)
-    rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
-    result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
-    df2 = result.rename(columns={'date':'at','review':'content'})
-    return df2
+  app = AppStore(country='id', app_name=nama, app_id = id)
+  app.review(how_many=20000)
+  df = pd.DataFrame(np.array(app.reviews),columns=['review'])
+  df2 = df.join(pd.DataFrame(df.pop('review').tolist())).rename(columns={'date':'at','review':'content'})
+  return df2
 
 def Case_Folding(text):
     #menghapus link
