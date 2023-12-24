@@ -52,7 +52,8 @@ def scrap_app(nama,id):
   app = AppStore(country='id', app_name=nama, app_id = id)
   app.review(how_many=10000)
   df = pd.DataFrame(np.array(app.reviews),columns=['review'])
-  df2 = df.join(pd.DataFrame(df.pop('review').tolist())).rename(columns={'date':'at','review':'content'})
+  df2 = df.join(pd.DataFrame(df.pop('review').tolist()))
+  df2 = df2.rename(columns={'date':'at','review':'content'})
   return df2
 
 def Case_Folding(text):
