@@ -465,6 +465,7 @@ if (selected=='Crawling Data Playstore'):
         proses = st.button('Proses Crawling',key='ap4')
         if proses:
             result = scrap_app(nama=nama,id=id)
+            st.write(result)
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(result)
