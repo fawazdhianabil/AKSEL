@@ -690,7 +690,6 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
     elif pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
-        proses_analisis = st.button('Proses Analisis')
         if al == 'AKSEL':
             alamat = 'id.co.bankkalsel.mobile_banking'
             jdl = 'AKSEL'
@@ -700,6 +699,22 @@ if (selected=='Analisis Sentimen by Lexicon'):
         elif al == 'IBB Mobile':
             alamat = 'id.co.bankkalsel.mobileibb'
             jdl = 'IBB Mobile'
+        elif al == 'Brimo':
+            alamat = 'id.co.bri.brimo'
+            jdl = 'Brimo'
+        elif al == 'Livin By Mandiri':
+            alamat = 'id.bmri.livin'
+            jdl = 'Livin By Mandiri'
+        elif al == 'BNI Mobile':
+            alamat = 'src.com.bni'
+            jdl = 'BNI Mobile'
+        elif al == 'BTN Mobile':
+            alamat = 'id.co.btn.mobilebanking.android'
+            jdl = 'BTN Mobile'
+        elif al == 'Perusahaan Lainnya':
+            alamat = st.text_input('Masukkan URL Perusahaan',key=2)
+            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=3)
+        proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
                 df = scrap(alamat=alamat)
@@ -742,7 +757,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 st.write('='*88)
                 bulan(df,jdl)
 
-            except :
+            except Exception as e:
+                st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
                 hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
