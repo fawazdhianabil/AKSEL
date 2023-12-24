@@ -676,7 +676,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
                                    data=PDFbyte,
                                    file_name=f"Sentimen Analisis {jdl}.pdf",
                                    mime='application/octet-stream')
-            except :
+            except Exception as e:
+                st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
                 hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
