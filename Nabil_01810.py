@@ -464,10 +464,10 @@ if (selected=='Crawling Data Playstore'):
             nama = st.text_input('Masukkan Kode Nama Aplikasi Perusahaan',key='ap3')
         proses = st.button('Proses Crawling',key='ap4')
         if proses:
-            app = AppStore(country='id', app_name=nama, app_id = id)
-            app.review(how_many=20000)
-            df = pd.DataFrame(np.array(app.reviews),columns=['review'])
-            result = df.join(pd.DataFrame(df.pop('review').tolist())).rename(columns={'date':'at','review':'content'})
+            rv = AppStore(country='id', app_name=nama, app_id =id)
+            rv.review(how_many=10000)
+            rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
+            result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
             st.write(result)
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
