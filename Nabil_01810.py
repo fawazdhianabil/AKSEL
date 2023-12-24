@@ -46,7 +46,14 @@ def scrap(alamat):
                                       country='id',
                                       sort=Sort.NEWEST))
   result1 = result[['userName','content','score','at','reviewCreatedVersion','appVersion']]
-  return result1
+  return result, result1
+
+def scrap_app(nama,id):
+  app = AppStore(country='id', app_name=nama, app_id = id)
+  app.review(how_many=20000)
+  df = pd.DataFrame(np.array(app.reviews),columns=['review'])
+  df2 = df.join(pd.DataFrame(df.pop('review').tolist())).rename(columns={'date':'at','review':'content'})
+  return df2
 
 def Case_Folding(text):
     #menghapus link
@@ -414,10 +421,7 @@ if (selected=='Crawling Data Playstore'):
             jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
         proses = st.button('Proses Crawling',key='gp')
         if proses:
-            result = pd.DataFrame(reviews_all(alamat,
-                             lang='id',
-                             country='id',
-                             sort=Sort.NEWEST))
+            result = scrap(alamat=alamat)
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(pd.DataFrame(result))
@@ -425,6 +429,8 @@ if (selected=='Crawling Data Playstore'):
             else:
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
+
+    #scrap app store
     elif sc == 'App Store':
         if al == 'AKSEL':
             jdl = 'AKSEL'
@@ -458,11 +464,7 @@ if (selected=='Crawling Data Playstore'):
             nama = st.text_input('Masukkan Kode Nama Aplikasi Perusahaan',key='ap3')
         proses = st.button('Proses Crawling',key='ap4')
         if proses:
-            rv = AppStore(country='id', app_name=nama, app_id =id)
-            rv.review(how_many=10000)
-            rvdf = pd.DataFrame(np.array(rv.reviews),columns=['review'])
-            result = rvdf.join(pd.DataFrame(rvdf.pop('review').tolist()))
-
+            result = scrap_app(nama=nama,id=id)
             if result.shape[0] > 0:
                 st.success(f'Crawling {result.shape[0]} Data Berhasil!')
                 st.write(result)
