@@ -579,8 +579,8 @@ if (selected=='Analisis Sentimen by Lexicon'):
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
-                st.dataframe(df)
-                df_n = sentimen(df)
+                st.dataframe(df[['userName','content','score','at','reviewCreatedVersion','appVersion']])
+                df_n = sentimen(df[['userName','content','score','at','reviewCreatedVersion','appVersion']])
                 sizes = [count for count in df_n['polarity'].value_counts()]
                 labels = list(df_n['polarity'].value_counts().index)
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
