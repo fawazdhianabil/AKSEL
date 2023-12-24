@@ -384,8 +384,7 @@ if (selected=='Crawling Data Playstore'):
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
     sc = st.selectbox('Silahkan Pilih Sumber Data',('Google Playstore',
-                                                 'App Store',
-                                                 'Perusahaan Lainnya'),
+                                                 'App Store'),
                           index=None,placeholder='Pilih')
     if sc == 'Google Playstore':
         if al == 'AKSEL':
