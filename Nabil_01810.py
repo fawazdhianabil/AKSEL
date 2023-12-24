@@ -572,7 +572,10 @@ if (selected=='Analisis Sentimen by Lexicon'):
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
     elif pil == 'PDF' and sc == 'Upload Data':
         data_file = st.file_uploader("Upload CSV file",type=["csv"])
-        df = pd.read_csv(data_file)
+        if data_file is not None:
+            df = pd.read_csv(data_file)
+        else :
+            st.write('Silahkan Upload Data')
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
