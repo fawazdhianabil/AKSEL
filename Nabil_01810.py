@@ -549,6 +549,8 @@ if (selected=='Scraping Data Playstore'):
                                                  'BTN Mobile',
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
+    thn = st.number_input('Masukkan Jumlah Tahun',min_value=0)
+    bln = st.number_input('Masukkan Jumlah Bulan',min_value=0)
     pilihan = pilihan(al)
     alamat = pilihan[0]
     jdl = pilihan[1]
