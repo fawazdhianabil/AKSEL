@@ -430,7 +430,7 @@ def sentimen_a(df,jdl):
     pdf.write(5,f'Ringkasan Statistik {jdl}')
     pdf.ln(7)
     pdf.set_font('Arial','B',12)
-    pdf.write(4,f'Tanggal : {hari}, Pukul : {wkt} WITA')
+    pdf.write(4,f'Tanggal : {a} s/d {hari}, Pukul : {wkt} WITA')
     pdf.image("Jam.jpg",0,30,WIDTH/2-5,HEIGHT/5+5)
     pdf.image("Bulan.jpg",WIDTH/2+5,30,WIDTH/2-5,HEIGHT/5+5)
 
