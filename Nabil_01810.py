@@ -525,6 +525,16 @@ def pilihan(al):
         alamat = st.text_input('Masukkan URL Perusahaan',key=0)
         jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
     return alamat,jdl
+
+ def urut(df_,byk):
+  df = df_
+  df['at'] = pd.to_datetime(df['at'], errors='coerce')
+  bulan1 = df['at']
+  bulan1 = bulan1.dt.strftime('%Y-%m-%d')
+  df['bulan'] = bulan1
+  df['bulan'] = pd.to_datetime(df['bulan'], errors='coerce')
+  df = df.sort_values(by="bulan",ascending=True).set_index('bulan').last(f'{byk}M')
+  return df
     
 # code untuk streamlit
 st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
@@ -551,6 +561,7 @@ if (selected=='Scraping Data Playstore'):
                           index=None,placeholder='Pilih')
     thn = st.number_input('Masukkan Jumlah Tahun',min_value=0)
     bln = st.number_input('Masukkan Jumlah Bulan',min_value=0)
+    total = thn*12+bln
     pilihan = pilihan(al)
     alamat = pilihan[0]
     jdl = pilihan[1]
@@ -558,6 +569,7 @@ if (selected=='Scraping Data Playstore'):
     if proses:
         result1 = scrap(alamat=alamat)
         result = result1[0]
+        result = urut(result,total)
         if result.shape[0] > 0:
             st.success(f'Scraping {result.shape[0]} Data Berhasil!')
             st.write(pd.DataFrame(result))
