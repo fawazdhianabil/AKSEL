@@ -359,7 +359,7 @@ def wc_negative(df,jdl):
     ax.axis('off')
     fig.savefig('wc_negative.jpg')
 
-def sentimen(df,jdl):
+def sentimen_a(df,jdl):
     df_n = sentimen(df)
     sizes = [count for count in df_n['polarity'].value_counts()]
     labels = list(df_n['polarity'].value_counts().index)
@@ -573,8 +573,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
             try:
                 df1 = scrap(alamat=alamat)
                 df = df1[1]
-                jdl = jdl
-                sentimen(df,jdl)
+                sentimen_a(df,jdl)
 
             except Exception as e:
                 st.write(e)
