@@ -522,7 +522,6 @@ def pilihan(al):
     elif al == 'Perusahaan Lainnya':
         alamat = st.text_input('Masukkan URL Perusahaan',key=0)
         jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
-    return alamat,jdl
     
 # code untuk streamlit
 st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
@@ -547,9 +546,7 @@ if (selected=='Scraping Data Playstore'):
                                                  'BTN Mobile',
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
-    pilihan = pilihan(al)
-    alamat = pilihan[0]
-    jdl = pilihan[1]
+    pilihan(al)
     proses = st.button('Proses Scraping',key='gp')
     if proses:
         result1 = scrap(alamat=alamat)
@@ -590,9 +587,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
                           index=None,placeholder='Pilih')
     
     if pil == 'PDF' and sc == 'Google Playstore':
-        pilihan = pilihan(al)
-        alamat = pilihan[0]
-        jdl = pilihan[1]
+        pilihan(al)
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
@@ -626,9 +621,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
 
     
     if pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
-        pilihan = pilihan(al)
-        alamat = pilihan[0]
-        jdl = pilihan[1]
+        pilihan(al)
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
