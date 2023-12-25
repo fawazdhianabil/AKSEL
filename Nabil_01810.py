@@ -632,6 +632,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
                 df_n = sentimen(data_file_raw[['userName','content','score','at','reviewCreatedVersion','appVersion']])
                 sentimen_a(df,jdl)
             except Exception as e:
+                st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
                 hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
