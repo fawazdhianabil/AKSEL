@@ -573,6 +573,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
             try:
                 df1 = scrap(alamat=alamat)
                 df = df1[1]
+                jdl = jdl
                 sentimen(df,jdl)
 
             except Exception as e:
