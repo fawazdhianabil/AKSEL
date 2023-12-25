@@ -532,8 +532,8 @@ def sentimen_c(df,jdl):
     df_n = sentimen(df)
     sizes = [count for count in df_n['polarity'].value_counts()]
     labels = list(df_n['polarity'].value_counts().index)
-    a = pd.to_datetime(df_n['at'][0], errors='coerce').strftime('%d/%m/%Y')
-    z = pd.to_datetime(df_n['at'][len(df_n)-1], errors='coerce').strftime('%d/%m/%Y')
+    z = pd.to_datetime(df_n['at'][0], errors='coerce').strftime('%d/%m/%Y')
+    a = pd.to_datetime(df_n['at'][len(df_n)-1], errors='coerce').strftime('%d/%m/%Y')
     st.success('Sentimen Analisis Berhasil!')
     st.success(f'Data Tanggal {a} sampai {z}')
     st.write(df_n)
