@@ -568,8 +568,8 @@ if (selected=='Scraping Data Playstore'):
     proses = st.button('Proses Scraping',key='gp')
     if proses:
         result1 = scrap(alamat=alamat)
-        result = result1[0]
-        result = urut(result,total)
+        result11 = result1[0]
+        result = urut(result11,total)
         if result.shape[0] > 0:
             st.success(f'Scraping {result.shape[0]} Data Berhasil!')
             st.write(pd.DataFrame(result))
