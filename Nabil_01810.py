@@ -680,9 +680,10 @@ if (selected=='Scraping Data Playstore'):
         result11 = result1[0]
         result = urut(result11,total)
         if result.shape[0] > 0:
-            a = pd.to_datetime(z['at'][0], errors='coerce').strftime('%Y-%m-%d')
+            a = pd.to_datetime(result['at'][0], errors='coerce').strftime('%d/%m/%Y')
+            z = pd.to_datetime(result['at'][len(result)-1], errors='coerce').strftime('%d/%m/%Y')
             st.success(f'Scraping {result.shape[0]} Data Berhasil!')
-            st.success(f'Data Tanggal {a} sampai {hari} pukul {wkt}')
+            st.success(f'Data Tanggal {z} sampai {a} pukul {wkt}')
             st.write(pd.DataFrame(result))
             st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
         else:
