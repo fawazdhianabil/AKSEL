@@ -498,6 +498,8 @@ def sentimen_b(df,jdl):
     bulan(df,jdl)
 
 def pilihan(al):
+    alamat = ''
+    jdl = ''
     if al == 'AKSEL':
         alamat = 'id.co.bankkalsel.mobile_banking'
         jdl = 'AKSEL'
@@ -522,6 +524,7 @@ def pilihan(al):
     elif al == 'Perusahaan Lainnya':
         alamat = st.text_input('Masukkan URL Perusahaan',key=0)
         jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
+    return alamat,jdl
     
 # code untuk streamlit
 st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
@@ -546,7 +549,9 @@ if (selected=='Scraping Data Playstore'):
                                                  'BTN Mobile',
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
-    pilihan(al)
+    pilihan = pilihan(al)
+    alamat = pilihan[0]
+    jdl = pilihan[1]
     proses = st.button('Proses Scraping',key='gp')
     if proses:
         result1 = scrap(alamat=alamat)
