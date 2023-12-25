@@ -786,6 +786,6 @@ if (selected == 'Analisis Sentimen (Produk)'):
     if proses_analisis:
         try:
             df=data_file_raw
-            sentimen_a(df[['userName','content','score','at','reviewCreatedVersion','appVersion']],jdl)
+            sentimen_c(df[['userName','content','score','at','reviewCreatedVersion','appVersion']],jdl)
         except Exception as e:
             st.write(e)
