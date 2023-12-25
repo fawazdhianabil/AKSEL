@@ -535,7 +535,7 @@ def sentimen_c(df,jdl):
     a = pd.to_datetime(df_n['at'][0], errors='coerce').strftime('%d/%m/%Y')
     z = pd.to_datetime(df_n['at'][len(df_n)-1], errors='coerce').strftime('%d/%m/%Y')
     st.success('Sentimen Analisis Berhasil!')
-    st.success(f'Data Tanggal {a} sampai {z})
+    st.success(f'Data Tanggal {a} sampai {z}')
     st.write(df_n)
     st.write('='*88)
     st.write('Ringkasan Data :')
