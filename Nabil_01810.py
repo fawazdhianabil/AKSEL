@@ -534,6 +534,7 @@ def urut(df_,byk):
     df['bulan'] = bulan1
     df['bulan'] = pd.to_datetime(df['bulan'], errors='coerce')
     df = df.sort_values(by="bulan",ascending=True).set_index('bulan').last(f'{byk}M')
+    df = df.reset_index(drop=True)
     return df
     
 # code untuk streamlit
