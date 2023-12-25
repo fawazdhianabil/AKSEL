@@ -82,7 +82,7 @@ slang_dictionary = pd.read_csv('https://raw.githubusercontent.com/fawazdhianabil
 slang_dict = pd.Series(slang_dictionary['slang'].values,index=slang_dictionary['formal']).to_dict()
 
 banjar_dictionary = pd.read_csv('https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/bahasa%20banjar.csv')
-banjar_dict = pd.Series(slang_dictionary['banjar'].values,index=slang_dictionary['indonesian']).to_dict()
+banjar_dict = pd.Series(banjar_dictionary['banjar'].values,index=banjar_dictionary['indonesian']).to_dict()
 
 def normalisasi(text):
     for word in text:
