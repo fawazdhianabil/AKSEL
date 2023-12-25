@@ -497,29 +497,7 @@ def sentimen_b(df,jdl):
     st.write('='*88)
     bulan(df,jdl)
 
-# code untuk streamlit
-st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
-    
-
-with st.sidebar :
-    #st.image(img,width = 290)
-    selected = option_menu('Main Menu',
-                           ['Scraping Data Playstore',
-                            'Analisis Sentimen (Aplikasi)',
-                            'Analisis Sentimen (Produk)'],
-                            default_index=0)
-#scraping playstore
-if (selected=='Scraping Data Playstore'):
-    st.title('Scraping Data Playstore')
-    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
-                                                 'Merchant Mobile (QRIS)',
-                                                 'IBB Mobile',
-                                                 'Brimo',
-                                                 'Livin By Mandiri',
-                                                 'BNI Mobile',
-                                                 'BTN Mobile',
-                                                 'Perusahaan Lainnya'),
-                          index=None,placeholder='Pilih')
+def pilihan(al):
     if al == 'AKSEL':
         alamat = 'id.co.bankkalsel.mobile_banking'
         jdl = 'AKSEL'
@@ -544,6 +522,34 @@ if (selected=='Scraping Data Playstore'):
     elif al == 'Perusahaan Lainnya':
         alamat = st.text_input('Masukkan URL Perusahaan',key=0)
         jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
+    return alamat,jdl
+    
+# code untuk streamlit
+st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
+    
+
+with st.sidebar :
+    #st.image(img,width = 290)
+    selected = option_menu('Main Menu',
+                           ['Scraping Data Playstore',
+                            'Analisis Sentimen (Aplikasi)',
+                            'Analisis Sentimen (Produk)'],
+                            default_index=0)
+#scraping playstore
+if (selected=='Scraping Data Playstore'):
+    st.title('Scraping Data Playstore')
+    al = st.selectbox('Silahkan Pilih Aplikasi',('AKSEL',
+                                                 'Merchant Mobile (QRIS)',
+                                                 'IBB Mobile',
+                                                 'Brimo',
+                                                 'Livin By Mandiri',
+                                                 'BNI Mobile',
+                                                 'BTN Mobile',
+                                                 'Perusahaan Lainnya'),
+                          index=None,placeholder='Pilih')
+    pilihan = pilihan(al)
+    alamat = pilihan[0]
+    jdl = pilihan[1]
     proses = st.button('Proses Scraping',key='gp')
     if proses:
         result1 = scrap(alamat=alamat)
@@ -584,30 +590,9 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
                           index=None,placeholder='Pilih')
     
     if pil == 'PDF' and sc == 'Google Playstore':
-        if al == 'AKSEL':
-            alamat = 'id.co.bankkalsel.mobile_banking'
-            jdl = 'AKSEL'
-        elif al == 'Merchant Mobile (QRIS)':
-            alamat = 'com.dwidasa.kalsel.mbqris.android'
-            jdl = 'Merchant Mobile (QRIS)'
-        elif al == 'IBB Mobile':
-            alamat = 'id.co.bankkalsel.mobileibb'
-            jdl = 'IBB Mobile'
-        elif al == 'Brimo':
-            alamat = 'id.co.bri.brimo'
-            jdl = 'Brimo'
-        elif al == 'Livin By Mandiri':
-            alamat = 'id.bmri.livin'
-            jdl = 'Livin By Mandiri'
-        elif al == 'BNI Mobile':
-            alamat = 'src.com.bni'
-            jdl = 'BNI Mobile'
-        elif al == 'BTN Mobile':
-            alamat = 'id.co.btn.mobilebanking.android'
-            jdl = 'BTN Mobile'
-        elif al == 'Perusahaan Lainnya':
-            alamat = st.text_input('Masukkan URL Perusahaan',key=0)
-            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
+        pilihan = pilihan(al)
+        alamat = pilihan[0]
+        jdl = pilihan[1]
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
@@ -641,30 +626,9 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
 
     
     if pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
-        if al == 'AKSEL':
-            alamat = 'id.co.bankkalsel.mobile_banking'
-            jdl = 'AKSEL'
-        elif al == 'Merchant Mobile (QRIS)':
-            alamat = 'com.dwidasa.kalsel.mbqris.android'
-            jdl = 'Merchant Mobile (QRIS)'
-        elif al == 'IBB Mobile':
-            alamat = 'id.co.bankkalsel.mobileibb'
-            jdl = 'IBB Mobile'
-        elif al == 'Brimo':
-            alamat = 'id.co.bri.brimo'
-            jdl = 'Brimo'
-        elif al == 'Livin By Mandiri':
-            alamat = 'id.bmri.livin'
-            jdl = 'Livin By Mandiri'
-        elif al == 'BNI Mobile':
-            alamat = 'src.com.bni'
-            jdl = 'BNI Mobile'
-        elif al == 'BTN Mobile':
-            alamat = 'id.co.btn.mobilebanking.android'
-            jdl = 'BTN Mobile'
-        elif al == 'Perusahaan Lainnya':
-            alamat = st.text_input('Masukkan URL Perusahaan',key=0)
-            jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
+        pilihan = pilihan(al)
+        alamat = pilihan[0]
+        jdl = pilihan[1]
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
