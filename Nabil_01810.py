@@ -592,7 +592,9 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
                           index=None,placeholder='Pilih')
     
     if pil == 'PDF' and sc == 'Google Playstore':
-        pilihan(al)
+        pilihan = pilihan(al)
+        alamat = pilihan[0]
+        jdl = pilihan[1]
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
@@ -626,7 +628,9 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
 
     
     if pil == 'Tidak Menyimpan Report' and sc == 'Google Playstore':
-        pilihan(al)
+        pilihan = pilihan(al)
+        alamat = pilihan[0]
+        jdl = pilihan[1]
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
