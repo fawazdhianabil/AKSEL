@@ -559,8 +559,8 @@ if (selected=='Scraping Data Playstore'):
                                                  'BTN Mobile',
                                                  'Perusahaan Lainnya'),
                           index=None,placeholder='Pilih')
-    thn = st.number_input('Masukkan Jumlah Tahun',min_value=0)
-    bln = st.number_input('Masukkan Jumlah Bulan',min_value=0)
+    thn = st.number_input('Masukkan Jumlah Tahun',min_value=0,max_value=3)
+    bln = st.number_input('Masukkan Jumlah Bulan',min_value=0,max_value=12)
     total = thn*12+bln
     pilihan = pilihan(al)
     alamat = pilihan[0]
@@ -609,11 +609,15 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
         pilihan = pilihan(al)
         alamat = pilihan[0]
         jdl = pilihan[1]
+        thn = st.number_input('Masukkan Jumlah Tahun',min_value=0,max_value=3)
+        bln = st.number_input('Masukkan Jumlah Bulan',min_value=0,max_value=12)
+        total = thn*12+bln
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
                 df1 = scrap(alamat=alamat)
-                df = df1[1]
+                df11 = df1[1]
+                df = urut(df,total)
                 sentimen_a(df,jdl)
 
             except Exception as e:
