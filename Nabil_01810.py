@@ -528,6 +528,99 @@ def pilihan(al):
         jdl = st.text_input('Masukkan Nama Aplikasi Perusahaan',key=1)
     return alamat,jdl
 
+def sentimen_c(df,jdl):
+    df_n = sentimen(df)
+    sizes = [count for count in df_n['polarity'].value_counts()]
+    labels = list(df_n['polarity'].value_counts().index)
+    a = pd.to_datetime(df_n['at'][0], errors='coerce').strftime('%d/%m/%Y')
+    z = pd.to_datetime(df_n['at'][len(df_n)-1], errors='coerce').strftime('%d/%m/%Y')
+    st.success('Sentimen Analisis Berhasil!')
+    st.success(f'Data Tanggal {a} sampai {z})
+    st.write(df_n)
+    st.write('='*88)
+    st.write('Ringkasan Data :')
+    st.write('Data Sebelum Text Preprocessing :',df.shape[0])
+    st.write('Data Sesudah Text Preprocessing :',df_n.shape[0])
+    st.write('Jumlah Sentiment Negative :',sizes[0])
+    st.write('Jumlah Sentiment Positive :',sizes[1])
+
+    fig, ax = plt.subplots(figsize = (6, 6))
+    explode = (0.1, 0)
+    colors = ['lightcoral', 'lightgreen']
+    ax.pie(x = sizes, labels = labels, colors=colors, autopct = '%1.1f%%', explode = explode, textprops={'fontsize': 14})
+    ax.set_title(f'Sentiment Polarity Pada Data {jdl}', fontsize = 16, pad = 20)
+    st.write('='*88)
+    st.pyplot(fig)
+    fig.savefig('Polarity.jpg')
+    st.write('='*88)
+    apk(df)
+    st.write('='*88)
+    wordcloud(df_n,jdl)
+    st.write('='*88)
+    kata_positif = pd.Series(" ".join(df_n[df_n["polarity"] == 'positive']["Untokenizing"].astype("str")).split())
+    kata_negatif = pd.Series(" ".join(df_n[df_n["polarity"] == 'negative']["Untokenizing"].astype("str")).split())
+    pos(kata_positif,jdl)
+    st.write('='*88)
+    neg(kata_negatif,jdl)
+    st.write('='*88)
+    jam(df,jdl)
+    st.write('='*88)
+    bulan(df,jdl)
+
+    WIDTH =210
+    HEIGHT = 297
+    pdf = FPDF()
+    #hal pertama
+    wc_positive(df_n,jdl)
+    wc_negative(df_n,jdl)
+    pdf.add_page()
+    pdf.set_font('Arial','B',16)
+    pdf.ln(5)
+    pdf.write(5,f'Analisis Sentimen {jdl}')
+    pdf.ln(7)
+    pdf.set_font('Arial','B',12)
+    pdf.write(4,f'Tanggal : {a} s/d {z}')
+    pdf.image("apk.jpg",0,30,WIDTH/2-5)
+    pdf.image("Polarity.jpg",WIDTH/2+5,30,WIDTH/2-5)
+    pdf.image("wc_positive.jpg",5,120,WIDTH/2-10,HEIGHT/5+5)
+    pdf.image("wc_negative.jpg",WIDTH/2+5,120,WIDTH/2-10,HEIGHT/5+5)
+    pdf.image("Positive.jpg",0,190,WIDTH/2-5,HEIGHT/5+5)
+    pdf.image("negative.jpg",WIDTH/2+5,190,WIDTH/2-5,HEIGHT/5+5)
+
+    #hal kedua
+    pdf.add_page()
+    pdf.set_font('Arial','B',16)   
+    pdf.ln(5)
+    pdf.write(5,f'Ringkasan Statistik {jdl}')
+    pdf.ln(7)
+    pdf.set_font('Arial','B',12)
+    pdf.write(4,f'Tanggal : {a} s/d {z}')
+    pdf.image("Jam.jpg",0,30,WIDTH/2-5,HEIGHT/5+5)
+    pdf.image("Bulan.jpg",WIDTH/2+5,30,WIDTH/2-5,HEIGHT/5+5)
+
+    #ringkasan
+    pdf.set_font('Arial','B',12)
+    pdf.ln(80)
+    pdf.write(5,'='*76)
+    pdf.ln(10)
+    pdf.write(5,'Ringkasan Data :')
+    pdf.ln(10)
+    pdf.write(1,f'Data Sebelum Text Preprocessing :{df.shape[0]}')
+    pdf.ln(6)
+    pdf.write(1,f'Data Sesudah Text Preprocessing :{df_n.shape[0]}')
+    pdf.ln(6)
+    pdf.write(1,f'Jumlah Sentiment Negative :{sizes[0]}')
+    pdf.ln(6)
+    pdf.write(1,f'Jumlah Sentiment Positive :{sizes[1]}')
+
+    pdf.output(f'Sentimen Analisis {jdl}.pdf','F')
+    with open(f"Sentimen Analisis {jdl}.pdf", "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+
+    st.download_button(label="Download Report",data=PDFbyte,
+                       file_name=f"Sentimen Analisis {jdl}.pdf",
+                       mime='application/octet-stream')
+
 def urut(df_,byk):
     df = df_
     df['at'] = pd.to_datetime(df['at'], errors='coerce')
