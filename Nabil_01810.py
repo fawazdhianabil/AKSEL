@@ -536,7 +536,10 @@ def urut(df_,byk):
     df = df.sort_values(by="bulan",ascending=True).set_index('bulan').last(f'{byk}M')
     df = df.reset_index(drop=True)
     return df
-    
+
+j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
+hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
+wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
 # code untuk streamlit
 st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
     
@@ -624,10 +627,8 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
             except Exception as e:
                 st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
-                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
-                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
-                st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
+                a = pd.to_datetime(z['at'][0], errors='coerce').strftime('%Y-%m-%d')
+                st.error(f'Rentang Tanggal {a} sampai {hari}')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
                 
     elif pil == 'PDF' and sc == 'Upload Data':
@@ -639,9 +640,6 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
             except Exception as e:
                 st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
-                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
-                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
 
@@ -659,9 +657,6 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
 
             except Exception as e:
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
-                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
-                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
     
@@ -674,8 +669,5 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
 
             except :
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
-                j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
-                hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
-                wkt = datetime.now(ZoneInfo('Asia/Jakarta')).strftime(f"{j+1}:%M:%S")
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
