@@ -576,6 +576,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
                 sentimen(df,jdl)
 
             except Exception as e:
+                st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
                 hari = datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%d/%m/%Y")
