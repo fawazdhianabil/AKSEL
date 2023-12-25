@@ -679,3 +679,20 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
                 st.error(f'Data Tanggal {hari} Pukul {wkt} WITA')
                 st.error('Hal ini Disebabkan Belum Ada Ulasan')
+
+
+#================== PRODUK ==============================
+if (selected == 'Analisis Sentimen (Produk)'):
+    data_file = st.file_uploader("Upload CSV file",type=["csv"])
+    if data_file is not None:
+        data_file_raw = pd.read_csv(data_file)
+        jdl = st.text_input('Masukkan Nama Produk')
+    else :
+        st.write('Silahkan Upload Data')
+    proses_analisis = st.button('Proses Analisis')
+    if proses_analisis:
+        try:
+            df=data_file_raw
+            sentimen_a(df[['userName','content','score','at','reviewCreatedVersion','appVersion']],jdl)
+        except Exception as e:
+            st.write(e)
