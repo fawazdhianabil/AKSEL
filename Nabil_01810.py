@@ -527,14 +527,14 @@ def pilihan(al):
     return alamat,jdl
 
  def urut(df_,byk):
-  df = df_
-  df['at'] = pd.to_datetime(df['at'], errors='coerce')
-  bulan1 = df['at']
-  bulan1 = bulan1.dt.strftime('%Y-%m-%d')
-  df['bulan'] = bulan1
-  df['bulan'] = pd.to_datetime(df['bulan'], errors='coerce')
-  df = df.sort_values(by="bulan",ascending=True).set_index('bulan').last(f'{byk}M')
-  return df
+     df = df_
+     df['at'] = pd.to_datetime(df['at'], errors='coerce')
+     bulan1 = df['at']
+     bulan1 = bulan1.dt.strftime('%Y-%m-%d')
+     df['bulan'] = bulan1
+     df['bulan'] = pd.to_datetime(df['bulan'], errors='coerce')
+     df = df.sort_values(by="bulan",ascending=True).set_index('bulan').last(f'{byk}M')
+     return df
     
 # code untuk streamlit
 st.markdown("<h1 style='text-align: center; color: black;'>Web App <span style='color: red;'>Sentimen</span>", unsafe_allow_html=True)
