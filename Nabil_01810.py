@@ -577,7 +577,9 @@ if (selected=='Scraping Data Playstore'):
         result11 = result1[0]
         result = urut(result11,total)
         if result.shape[0] > 0:
+            a = pd.to_datetime(z['at'][0], errors='coerce').strftime('%Y-%m-%d')
             st.success(f'Scraping {result.shape[0]} Data Berhasil!')
+            st.success(f'Data Tanggal {a} sampai {hari} pukul {wkt}')
             st.write(pd.DataFrame(result))
             st.download_button(label='Download Data Mentah', data = pd.DataFrame(result).to_csv(index=False), file_name='Data Mentah.csv')
         else:
@@ -650,11 +652,15 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
         pilihan = pilihan(al)
         alamat = pilihan[0]
         jdl = pilihan[1]
+        thn = st.number_input('Masukkan Jumlah Tahun',min_value=0,max_value=3)
+        bln = st.number_input('Masukkan Jumlah Bulan',min_value=0,max_value=12)
+        total = thn*12+bln
         proses_analisis = st.button('Proses Analisis')
         if proses_analisis:
             try:
                 df1 = scrap(alamat=alamat)
-                df = df1[1]
+                df11 = df1[1]
+                df = urut(df11,total)
                 sentimen_b(df,jdl)
 
             except Exception as e:
