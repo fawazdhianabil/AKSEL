@@ -81,10 +81,19 @@ def satu(teks):
 slang_dictionary = pd.read_csv('https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/slangformal.csv')
 slang_dict = pd.Series(slang_dictionary['slang'].values,index=slang_dictionary['formal']).to_dict()
 
+banjar_dictionary = pd.read_csv('https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/bahasa%20banjar.csv')
+banjar_dict = pd.Series(slang_dictionary['banjar'].values,index=slang_dictionary['indonesian']).to_dict()
+
 def normalisasi(text):
     for word in text:
         if word in slang_dict.keys():
             text = [slang_dict[word] if word == s else s for s in text]
+    return text
+
+def normalisasi_daerah(text):
+    for word in text:
+        if word in banjar_dict.keys():
+            text = [banjar_dict[word] if word == s else s for s in text]
     return text
 
 def remove_stopwords(token):
@@ -154,6 +163,7 @@ def sentimen(df):
   df['Case_Folding'] = df['Text_Clean'].apply(Case_Folding)
   df['Tokenizing'] = df['Case_Folding'].apply(split_word)
   df['Normalisasi'] = df['Tokenizing'].apply(normalisasi)
+  df['Normalisasi'] = df['Normalisasi'].apply(normalisasi_daerah)
   df['Normalisasi'] = df['Normalisasi'].apply(satu).str.replace('enggak', 'tidak').apply(split_word)
   df['Stopword'] = df['Normalisasi'].apply(lambda x: remove_stopwords(x))
   df['Stopword'] = df['Normalisasi'].apply(lambda x: remove_stopwords2(x))
