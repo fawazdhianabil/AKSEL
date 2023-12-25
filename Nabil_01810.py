@@ -617,7 +617,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
             try:
                 df1 = scrap(alamat=alamat)
                 df11 = df1[1]
-                df = urut(df,total)
+                df = urut(df11,total)
                 sentimen_a(df,jdl)
 
             except Exception as e:
