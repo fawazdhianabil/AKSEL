@@ -629,8 +629,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
         if proses_analisis:
             try:
                 df=data_file_raw
-                df_n = sentimen(data_file_raw[['userName','content','score','at','reviewCreatedVersion','appVersion']])
-                sentimen_a(df,jdl)
+                sentimen_a(df[['userName','content','score','at','reviewCreatedVersion','appVersion']],jdl)
             except Exception as e:
                 st.write(e)
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
@@ -686,8 +685,7 @@ if (selected=='Analisis Sentimen (Aplikasi)'):
         if proses_analisis:
             try:
                 df = data_file_raw
-                df_n = sentimen(df[['userName','content','score','at','reviewCreatedVersion','appVersion']])
-                sentimen_b(df,jdl)
+                sentimen_b(df[['userName','content','score','at','reviewCreatedVersion','appVersion']],jdl)
 
             except :
                 st.error('Data Ulasan Tidak Ada',icon='🚨')
