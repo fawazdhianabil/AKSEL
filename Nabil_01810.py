@@ -234,7 +234,7 @@ def sentimen(df):
     d['total'] = d.sum(axis=0)
     df['cosine'] = d[d[d['total']==d['total'].max()].index]
     df = df[df['cosine'] <= 0.9]
-    st.write(df)
+    return df
 
 # Determine sentiment polarity of tweets using indonesia sentiment lexicon (source : https://github.com/fajri91/InSet)
 # Loads lexicon positive and negative data
