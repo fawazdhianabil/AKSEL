@@ -42,6 +42,21 @@ nltk.download('stopwords')
 from nltk.corpus import stopwords
 listStopword =  set(stopwords.words('indonesian'))
 
+
+lexicon_positive = dict()
+url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/lexicon_positive.csv'
+response =requests.get(url)
+reader = csv.reader(response.text.splitlines())
+for row in reader:
+    lexicon_positive[row[0]] = int(row[1])
+        
+lexicon_negative = dict()
+url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/lexicon_negative.csv'
+response =requests.get(url)
+reader = csv.reader(response.text.splitlines())
+for row in reader:
+    lexicon_negative[row[0]] = int(row[1])
+
 def scrap(alamat):
     result = pd.DataFrame(reviews_all(alamat,
                                       lang='id',
@@ -220,27 +235,9 @@ def sentimen(df):
     df['cosine'] = d[d[d['total']==d['total'].max()].index]
     df = df[df['cosine'] <= 0.9]
 
-  # Determine sentiment polarity of tweets using indonesia sentiment lexicon (source : https://github.com/fajri91/InSet)
-
-  # Loads lexicon positive and negative data
-  import requests
-  lexicon_positive = dict()
-  url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/lexicon_positive.csv'
-  response =requests.get(url)
-  reader = csv.reader(response.text.splitlines())
-  for row in reader:
-    lexicon_positive[row[0]] = int(row[1])
-        
-
-  import requests
-  lexicon_negative = dict()
-  url = 'https://raw.githubusercontent.com/fawazdhianabil/AKSEL/main/lexicon_negative.csv'
-  response =requests.get(url)
-  reader = csv.reader(response.text.splitlines())
-  for row in reader:
-    lexicon_negative[row[0]] = int(row[1])
-
-  # Function to determine sentiment polarity of tweets
+# Determine sentiment polarity of tweets using indonesia sentiment lexicon (source : https://github.com/fajri91/InSet)
+# Loads lexicon positive and negative data
+# Function to determine sentiment polarity of tweets
 def sentiment_analysis_lexicon_indonesia(text):
     score = 0
     for word in text:
