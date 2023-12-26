@@ -21,6 +21,10 @@ import csv
 import sys
 import unicodedata
 
+import sklearn
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 # warning
 if not sys.warnoptions:
     import warnings
@@ -106,98 +110,115 @@ def remove_stopwords2(teks):
     return text
 
 def jam(df,jdl):
-  df = df
-  df['at'] = pd.to_datetime(df['at'], errors='coerce')
-  jam1 = df['at'].dt.round('H')
-  jam1 = jam1.dt.strftime('%H:%M:%S')
-  df['jam'] = jam1
-  fig, ax = plt.subplots(figsize = (20, 6))
-  x_values = jam1.value_counts().sort_index().index
-  y_values = jam1.value_counts().sort_index()
-  sns.lineplot(ax = ax, x = x_values, y = y_values)
-  ax.set_title(f'Banyak Review {jdl} \n (Berdasarkan Jam)', fontsize = 18)
-  ax.set_xlabel('Jam')
-  ax.set_xticks(x_values)
-  ax.set_xticklabels(x_values, rotation = 45)
-  ax.set_ylabel('Frekuensi')
-  plt.grid()
-  st.pyplot(fig)
-  fig.savefig('Jam.jpg')
+    df = df
+    df['at'] = pd.to_datetime(df['at'], errors='coerce')
+    jam1 = df['at'].dt.round('H')
+    jam1 = jam1.dt.strftime('%H:%M:%S')
+    df['jam'] = jam1
+    fig, ax = plt.subplots(figsize = (20, 6))
+    x_values = jam1.value_counts().sort_index().index
+    y_values = jam1.value_counts().sort_index()
+    sns.lineplot(ax = ax, x = x_values, y = y_values)
+    ax.set_title(f'Banyak Review {jdl} \n (Berdasarkan Jam)', fontsize = 18)
+    ax.set_xlabel('Jam')
+    ax.set_xticks(x_values)
+    ax.set_xticklabels(x_values, rotation = 45)
+    ax.set_ylabel('Frekuensi')
+    plt.grid()
+    st.pyplot(fig)
+    fig.savefig('Jam.jpg')
 
 def bulan(df,jdl):
-  df = df
-  bulan1 = df['at'].dt.round('30D')
-  bulan1 = bulan1.dt.strftime('%Y-%m-%d')
-  df['bulan'] = bulan1
-  fig, ax = plt.subplots(figsize = (20, 6))
-  x_values = bulan1.value_counts().sort_index().index
-  y_values = bulan1.value_counts().sort_index()
-  sns.lineplot(ax = ax, x = x_values, y = y_values)
-  ax.set_title(f'Banyak Review pada {jdl} \n (Berdasarkan Bulan)', fontsize = 18)
-  ax.set_xlabel('Bulan')
-  ax.set_xticks(x_values)
-  ax.set_xticklabels(x_values, rotation = 45)
-  ax.set_ylabel('Frekuensi')
-  plt.grid()
-  st.pyplot(fig)
-  fig.savefig('Bulan.jpg')
+    df = df
+    df['at'] = pd.to_datetime(df['at'], errors='coerce')
+    bulan1 = df['at'].dt.round('30D')
+    bulan1 = bulan1.dt.strftime('%Y-%m-%d')
+    df['bulan'] = bulan1
+    fig, ax = plt.subplots(figsize = (20, 6))
+    x_values = bulan1.value_counts().sort_index().index
+    y_values = bulan1.value_counts().sort_index()
+    sns.lineplot(ax = ax, x = x_values, y = y_values)
+    ax.set_title(f'Banyak Review pada {jdl} \n (Berdasarkan Bulan)', fontsize = 18)
+    ax.set_xlabel('Bulan')
+    ax.set_xticks(x_values)
+    ax.set_xticklabels(x_values, rotation = 45)
+    ax.set_ylabel('Frekuensi')
+    plt.grid()
+    st.pyplot(fig)
+    fig.savefig('Bulan.jpg')
 
 from nlp_id.lemmatizer import Lemmatizer
 lemmatizer = Lemmatizer()
 
 # untuk sentimen
 def sentimen(df):
-  text_clean = []
+    text_clean = []
+    
+    for idx, text in enumerate(df['content']):
+        clean_text = str(text).replace(str(df['userName'][idx]), '')
+        clean_text = re.sub(r'@[\w]+','',clean_text)
+        text_clean.append(clean_text)
+    
+    df['Text_Clean'] = text_clean
+    df['Text_Clean'] = df['Text_Clean'].drop_duplicates()
+    df = df.dropna()
+    df = df.reset_index(drop=True)
+    
+    df['Case_Folding'] = df['Text_Clean'].apply(Case_Folding)
+    df['Tokenizing'] = df['Case_Folding'].apply(split_word)
+    df['Normalisasi'] = df['Tokenizing'].apply(normalisasi)
+    df['Normalisasi'] = df['Normalisasi'].apply(normalisasi_daerah)
+    df['Normalisasi'] = df['Normalisasi'].apply(satu).str.replace('enggak', 'tidak').apply(split_word)
+    df['Stopword'] = df['Normalisasi'].apply(lambda x: remove_stopwords(x))
+    df['Stopword'] = df['Normalisasi'].apply(lambda x: remove_stopwords2(x))
+    df['Lemmatisasi'] = df['Stopword'].apply(satu).apply(lemmatizer.lemmatize).apply(split_word)
+    df['Text_Clean2'] = df['Lemmatisasi'].apply(satu).str.findall(r'\w{2,}').str.join(' ').apply(split_word)
+    
+    df['Final_Cek'] = df['Text_Clean2'].apply(satu)
+    df['Final_Cek'] = df['Final_Cek'].str.replace('engenggakk', 'tidak')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('enggak', 'tidak')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('apk', 'aplikasi')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('bsih', 'bsi')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('aplikasih', 'aplikasi')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('broken', 'patah')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('kecewa', 'kekecewaan')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('blok', 'blokir')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('sulit', 'tidak')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('erorr', 'error')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('lelet', 'lama')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('erur', 'error')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('kga', 'tidak')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('engengtidak', 'tidak')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('tks', 'terima kasih')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('ganngguan', 'ganggu')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('errornya', 'error')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('engtidak', 'tidak')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('aplikasix', 'aplikasi')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('ss', 'cuplikan')
+    df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'baru')
+    
+    df['Final_Cek'] = df['Final_Cek'].drop_duplicates().apply(split_word)
+    df = df.dropna()
+    df = df.reset_index(drop=True)
+    
+    df['Untokenizing'] = df['Final_Cek'].apply(satu)
+    hasil = df['Final_Cek'].apply(sentiment_analysis_lexicon_indonesia)
+    hasil = list(zip(*hasil))
+    df['polarity_score'] = hasil[0]
+    df['polarity'] = hasil[1]
 
-  for idx, text in enumerate(df['content']):
-    clean_text = str(text).replace(str(df['userName'][idx]), '')
-    clean_text = re.sub(r'@[\w]+','',clean_text)
-    text_clean.append(clean_text)
+    # Convert the texts into TF-IDF vectors
+    vectorizer = TfidfVectorizer()
+    text1 = df['Final_Cek'].apply(satu)
+    vectors = vectorizer.fit_transform(text1)
 
-  df['Text_Clean'] = text_clean
-  
-  df['Text_Clean'] = df['Text_Clean'].drop_duplicates()
-  df = df.dropna()
-  df = df.reset_index(drop=True)
-
-  df['Case_Folding'] = df['Text_Clean'].apply(Case_Folding)
-  df['Tokenizing'] = df['Case_Folding'].apply(split_word)
-  df['Normalisasi'] = df['Tokenizing'].apply(normalisasi)
-  df['Normalisasi'] = df['Normalisasi'].apply(normalisasi_daerah)
-  df['Normalisasi'] = df['Normalisasi'].apply(satu).str.replace('enggak', 'tidak').apply(split_word)
-  df['Stopword'] = df['Normalisasi'].apply(lambda x: remove_stopwords(x))
-  df['Stopword'] = df['Normalisasi'].apply(lambda x: remove_stopwords2(x))
-  df['Lemmatisasi'] = df['Stopword'].apply(satu).apply(lemmatizer.lemmatize).apply(split_word)
-  df['Text_Clean2'] = df['Lemmatisasi'].apply(satu).str.findall(r'\w{2,}').str.join(' ').apply(split_word)
-
-  df['Final_Cek'] = df['Text_Clean2'].apply(satu)
-  df['Final_Cek'] = df['Final_Cek'].str.replace('engenggakk', 'tidak')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('enggak', 'tidak')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('apk', 'aplikasi')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('bsih', 'bsi')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('aplikasih', 'aplikasi')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('broken', 'patah')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('kecewa', 'kekecewaan')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('blok', 'blokir')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('sulit', 'tidak')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('erorr', 'error')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('lelet', 'lama')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('erur', 'error')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('kga', 'tidak')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('engengtidak', 'tidak')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('tks', 'terima kasih')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('ganngguan', 'ganggu')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('errornya', 'error')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('engtidak', 'tidak')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('aplikasix', 'aplikasi')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('ss', 'cuplikan')
-  df['Final_Cek'] = df['Final_Cek'].str.replace('baharu', 'baru')
-
-  df['Final_Cek'] = df['Final_Cek'].drop_duplicates().apply(split_word)
-  df = df.dropna()
-  df = df.reset_index(drop=True)
-
-  df['Untokenizing'] = df['Final_Cek'].apply(satu)
+    # Calculate the cosine similarity between the vectors
+    similarity = cosine_similarity(vectors)
+    d = np.fill_diagonal(similarity,0)
+    d = pd.DataFrame(similarity)
+    d['total'] = d.sum(axis=0)
+    df['cosine'] = d[d[d['total']==d['total'].max()].index]
+    df = df[df['cosine'] <= 0.9]
 
   # Determine sentiment polarity of tweets using indonesia sentiment lexicon (source : https://github.com/fajri91/InSet)
 
@@ -220,8 +241,7 @@ def sentimen(df):
     lexicon_negative[row[0]] = int(row[1])
 
   # Function to determine sentiment polarity of tweets
-  def sentiment_analysis_lexicon_indonesia(text):
-    #for word in text:
+def sentiment_analysis_lexicon_indonesia(text):
     score = 0
     for word in text:
         if (word in lexicon_positive):
@@ -235,13 +255,6 @@ def sentimen(df):
     elif (score < 0):
         polarity = 'negative'
     return score, polarity
-
-  hasil = df['Final_Cek'].apply(sentiment_analysis_lexicon_indonesia)
-  hasil = list(zip(*hasil))
-  df['polarity_score'] = hasil[0]
-  df['polarity'] = hasil[1]
-
-  return df
     
 def apk(df):
     values = df.appVersion.value_counts(ascending=True).keys().tolist()
