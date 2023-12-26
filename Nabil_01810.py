@@ -382,7 +382,6 @@ def wc_negative(df,jdl):
 
 def sentimen_a(df,jdl):
     df_n = sentimen(df)
-    st.write(df_n)
     sizes = [count for count in df_n['polarity'].value_counts()]
     labels = list(df_n['polarity'].value_counts().index)
     j = int(datetime.now(ZoneInfo('Asia/Jakarta')).strftime("%H"))
